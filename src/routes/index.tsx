@@ -1,12 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import {
-  buildFullDocument,
-  emptyTicket,
-  generateDocumentation,
-  type GeneratedSection,
-  type TicketInput,
-} from "@/lib/generate-docs";
+import { useMemo, useState } from "react";
+import { emptyTicket, type GeneratedSection, type TicketInput } from "@/lib/generate-docs";
+import { documentationService } from "@/lib/doc-service";
+import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
+import { AutoTextarea } from "@/components/AutoTextarea";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
