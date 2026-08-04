@@ -35,8 +35,9 @@ const fields: {
   multiline?: boolean;
   mono?: boolean;
   full?: boolean;
+  required?: boolean;
 }[] = [
-  { key: "userName", label: "User Name", placeholder: "Joel Miller" },
+  { key: "userName", label: "User Name", placeholder: "Joel Miller", required: true },
   { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
   {
     key: "issueSummary",
@@ -44,7 +45,9 @@ const fields: {
     placeholder: "Outlook fails to sync mailbox after password reset",
     multiline: true,
     full: true,
+    required: true,
   },
+
   {
     key: "symptoms",
     label: "Symptoms",
