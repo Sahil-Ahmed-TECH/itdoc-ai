@@ -1,24 +1,237 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  emptyTicket,
+  generateDocumentation,
+  type GeneratedSection,
+  type TicketInput,
+} from "@/lib/generate-docs";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "IT Ticket Documentation Generator | TicketScribe" },
+      {
+        name: "description",
+        content:
+          "Turn raw IT ticket notes into polished ticket descriptions, resolution summaries, internal notes, end-user updates and KB drafts.",
+      },
+      { property: "og:title", content: "IT Ticket Documentation Generator | TicketScribe" },
+      {
+        property: "og:description",
+        content:
+          "Generate editable, copy-ready IT support documentation from a single form — no login required.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const fields: {
+  key: keyof TicketInput;
+  label: string;
+  placeholder: string;
+  multiline?: boolean;
+  mono?: boolean;
+  full?: boolean;
+}[] = [
+  { key: "userName", label: "User Name", placeholder: "Jane Doe" },
+  { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
+  {
+    key: "issueSummary",
+    label: "Issue Summary",
+    placeholder: "Outlook fails to sync mailbox after password reset",
+    multiline: true,
+    full: true,
+  },
+  {
+    key: "symptoms",
+    label: "Symptoms",
+    placeholder: "One per line\nRepeated credential prompts\nSend/receive error 0x8004010F",
+    multiline: true,
+  },
+  {
+    key: "steps",
+    label: "Troubleshooting Steps Performed",
+    placeholder: "One per line\nVerified account status in AD\nCleared cached credentials",
+    multiline: true,
+  },
+  {
+    key: "commands",
+    label: "Commands Used",
+    placeholder: "ipconfig /flushdns\nklist purge",
+    multiline: true,
+    mono: true,
+  },
+  {
+    key: "resolution",
+    label: "Resolution",
+    placeholder: "Removed stale credential entry and recreated the Outlook profile.",
+    multiline: true,
+  },
+  {
+    key: "notes",
+    label: "Additional Notes",
+    placeholder: "Anything worth flagging for the next technician.",
+    multiline: true,
+    full: true,
+  },
+];
+
 function Index() {
+  const [form, setForm] = useState<TicketInput>(emptyTicket);
+  const [sections, setSections] = useState<GeneratedSection[] | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const update = (key: keyof TicketInput, value: string) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleGenerate = () => {
+    setSections(generateDocumentation(form));
+    setCopied(null);
+  };
+
+  const handleClear = () => {
+    setForm(emptyTicket);
+    setSections(null);
+    setCopied(null);
+  };
+
+  const copySection = async (section: GeneratedSection) => {
+    try {
+      await navigator.clipboard.writeText(section.content);
+      setCopied(section.id);
+      setTimeout(() => setCopied((c) => (c === section.id ? null : c)), 1800);
+    } catch {
+      setCopied(null);
+    }
+  };
+
+  const editSection = (id: string, content: string) =>
+    setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border/70 bg-card/40 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-7 sm:px-8">
+          <span className="w-fit rounded-full border border-border bg-surface-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            IT Service Desk Toolkit
+          </span>
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            AI-Powered IT Ticket Documentation Generator
+          </h1>
+          <p className="max-w-2xl text-sm text-muted-foreground">
+            Capture the raw details once, then generate five polished, editable documents ready to
+            paste into your ticketing system and knowledge base.
+          </p>
+        </div>
+      </header>
+
+      <main className="mx-auto grid max-w-7xl gap-6 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+        <section
+          aria-label="Ticket details"
+          className="h-fit rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
+        >
+          <h2 className="text-base font-semibold">Ticket details</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Fill in what you know — empty fields are handled gracefully.
+          </p>
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {fields.map((field) => (
+              <div
+                key={field.key}
+                className={`flex flex-col gap-1.5 ${field.full ? "sm:col-span-2" : ""}`}
+              >
+                <label
+                  htmlFor={field.key}
+                  className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+                >
+                  {field.label}
+                </label>
+                {field.multiline ? (
+                  <textarea
+                    id={field.key}
+                    rows={field.full ? 3 : 4}
+                    value={form[field.key]}
+                    onChange={(e) => update(field.key, e.target.value)}
+                    placeholder={field.placeholder}
+                    className={`w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30 ${
+                      field.mono ? "font-mono text-[13px]" : ""
+                    }`}
+                  />
+                ) : (
+                  <input
+                    id={field.key}
+                    value={form[field.key]}
+                    onChange={(e) => update(field.key, e.target.value)}
+                    placeholder={field.placeholder}
+                    className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <button
+              onClick={handleGenerate}
+              className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            >
+              Generate Documentation
+            </button>
+            <button
+              onClick={handleClear}
+              className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted"
+            >
+              Clear Form
+            </button>
+          </div>
+        </section>
+
+        <section aria-label="Generated documentation" className="flex flex-col gap-4">
+          {!sections ? (
+            <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 p-8 text-center">
+              <div
+                className="mb-4 h-12 w-12 rounded-xl"
+                style={{ backgroundImage: "var(--gradient-hero)" }}
+                aria-hidden
+              />
+              <h2 className="text-base font-semibold">No documentation yet</h2>
+              <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+                Complete the ticket details and hit Generate Documentation to produce five
+                editable, copy-ready sections.
+              </p>
+            </div>
+          ) : (
+            sections.map((section) => (
+              <article
+                key={section.id}
+                className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
+              >
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h2 className="text-sm font-semibold tracking-tight">{section.title}</h2>
+                  <button
+                    onClick={() => copySection(section)}
+                    className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                  >
+                    {copied === section.id ? "Copied" : "Copy"}
+                  </button>
+                </div>
+                <textarea
+                  value={section.content}
+                  onChange={(e) => editSection(section.id, e.target.value)}
+                  rows={Math.min(20, section.content.split("\n").length + 2)}
+                  aria-label={section.title}
+                  className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                />
+              </article>
+            ))
+          )}
+        </section>
+      </main>
     </div>
   );
 }
