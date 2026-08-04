@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
+  buildFullDocument,
   emptyTicket,
   generateDocumentation,
   type GeneratedSection,
@@ -84,6 +85,7 @@ function Index() {
   const [form, setForm] = useState<TicketInput>(emptyTicket);
   const [sections, setSections] = useState<GeneratedSection[] | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [editing, setEditing] = useState<Record<string, boolean>>({});
 
   const update = (key: keyof TicketInput, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -91,26 +93,34 @@ function Index() {
   const handleGenerate = () => {
     setSections(generateDocumentation(form));
     setCopied(null);
+    setEditing({});
   };
 
   const handleClear = () => {
     setForm(emptyTicket);
     setSections(null);
     setCopied(null);
+    setEditing({});
   };
 
-  const copySection = async (section: GeneratedSection) => {
+  const copyText = async (id: string, text: string) => {
     try {
-      await navigator.clipboard.writeText(section.content);
-      setCopied(section.id);
-      setTimeout(() => setCopied((c) => (c === section.id ? null : c)), 1800);
+      await navigator.clipboard.writeText(text);
+      setCopied(id);
+      setTimeout(() => setCopied((c) => (c === id ? null : c)), 1800);
     } catch {
       setCopied(null);
     }
   };
 
+  const copyAll = () => {
+    if (!sections) return;
+    copyText("__all__", buildFullDocument(sections, form));
+  };
+
   const editSection = (id: string, content: string) =>
     setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -201,35 +211,68 @@ function Index() {
               />
               <h2 className="text-base font-semibold">No documentation yet</h2>
               <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-                Complete the ticket details and hit Generate Documentation to produce five
+                Complete the ticket details and hit Generate Documentation to produce
                 editable, copy-ready sections.
               </p>
             </div>
           ) : (
-            sections.map((section) => (
-              <article
-                key={section.id}
-                className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
-              >
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h2 className="text-sm font-semibold tracking-tight">{section.title}</h2>
-                  <button
-                    onClick={() => copySection(section)}
-                    className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+            <>
+              <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-muted-foreground">
+                  {sections.length} sections generated — edit any section before copying.
+                </p>
+                <button
+                  onClick={copyAll}
+                  className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                >
+                  {copied === "__all__" ? "Copied all" : "Copy All Documentation"}
+                </button>
+              </div>
+              {sections.map((section) => {
+                const isEditing = !!editing[section.id];
+                return (
+                  <article
+                    key={section.id}
+                    className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
                   >
-                    {copied === section.id ? "Copied" : "Copy"}
-                  </button>
-                </div>
-                <textarea
-                  value={section.content}
-                  onChange={(e) => editSection(section.id, e.target.value)}
-                  rows={Math.min(20, section.content.split("\n").length + 2)}
-                  aria-label={section.title}
-                  className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                />
-              </article>
-            ))
+                    <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                      <h2 className="text-sm font-semibold tracking-tight">{section.title}</h2>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() =>
+                            setEditing((prev) => ({ ...prev, [section.id]: !isEditing }))
+                          }
+                          className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                        >
+                          {isEditing ? "Done" : "Edit"}
+                        </button>
+                        <button
+                          onClick={() => copyText(section.id, section.content)}
+                          className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                        >
+                          {copied === section.id ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+                    {isEditing ? (
+                      <textarea
+                        value={section.content}
+                        onChange={(e) => editSection(section.id, e.target.value)}
+                        rows={Math.min(24, section.content.split("\n").length + 2)}
+                        aria-label={`${section.title} editor`}
+                        className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                      />
+                    ) : (
+                      <pre className="w-full overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-border/60 bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground">
+                        {section.content}
+                      </pre>
+                    )}
+                  </article>
+                );
+              })}
+            </>
           )}
+
         </section>
       </main>
     </div>
