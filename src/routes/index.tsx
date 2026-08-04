@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
+  buildFullDocument,
   emptyTicket,
   generateDocumentation,
   type GeneratedSection,
@@ -84,6 +85,7 @@ function Index() {
   const [form, setForm] = useState<TicketInput>(emptyTicket);
   const [sections, setSections] = useState<GeneratedSection[] | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [editing, setEditing] = useState<Record<string, boolean>>({});
 
   const update = (key: keyof TicketInput, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -91,26 +93,34 @@ function Index() {
   const handleGenerate = () => {
     setSections(generateDocumentation(form));
     setCopied(null);
+    setEditing({});
   };
 
   const handleClear = () => {
     setForm(emptyTicket);
     setSections(null);
     setCopied(null);
+    setEditing({});
   };
 
-  const copySection = async (section: GeneratedSection) => {
+  const copyText = async (id: string, text: string) => {
     try {
-      await navigator.clipboard.writeText(section.content);
-      setCopied(section.id);
-      setTimeout(() => setCopied((c) => (c === section.id ? null : c)), 1800);
+      await navigator.clipboard.writeText(text);
+      setCopied(id);
+      setTimeout(() => setCopied((c) => (c === id ? null : c)), 1800);
     } catch {
       setCopied(null);
     }
   };
 
+  const copyAll = () => {
+    if (!sections) return;
+    copyText("__all__", buildFullDocument(sections, form));
+  };
+
   const editSection = (id: string, content: string) =>
     setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
