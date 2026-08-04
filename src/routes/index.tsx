@@ -1,12 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import {
-  buildFullDocument,
-  emptyTicket,
-  generateDocumentation,
-  type GeneratedSection,
-  type TicketInput,
-} from "@/lib/generate-docs";
+import { useMemo, useState } from "react";
+import { emptyTicket, type GeneratedSection, type TicketInput } from "@/lib/generate-docs";
+import { documentationService } from "@/lib/doc-service";
+import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
+import { AutoTextarea } from "@/components/AutoTextarea";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,8 +35,9 @@ const fields: {
   multiline?: boolean;
   mono?: boolean;
   full?: boolean;
+  required?: boolean;
 }[] = [
-  { key: "userName", label: "User Name", placeholder: "Joel Miller" },
+  { key: "userName", label: "User Name", placeholder: "Joel Miller", required: true },
   { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
   {
     key: "issueSummary",
@@ -46,7 +45,9 @@ const fields: {
     placeholder: "Outlook fails to sync mailbox after password reset",
     multiline: true,
     full: true,
+    required: true,
   },
+
   {
     key: "symptoms",
     label: "Symptoms",
@@ -71,6 +72,7 @@ const fields: {
     label: "Resolution",
     placeholder: "Removed stale credential entry and recreated the Outlook profile.",
     multiline: true,
+    required: true,
   },
   {
     key: "notes",
@@ -86,12 +88,17 @@ function Index() {
   const [sections, setSections] = useState<GeneratedSection[] | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [editing, setEditing] = useState<Record<string, boolean>>({});
+  const [touched, setTouched] = useState<Partial<Record<RequiredField, boolean>>>({});
+
+  const errors = useMemo(() => validateTicket(form), [form]);
+  const isValid = Object.keys(errors).length === 0;
 
   const update = (key: keyof TicketInput, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const handleGenerate = () => {
-    setSections(generateDocumentation(form));
+  const handleGenerate = async () => {
+    if (!isValid) return;
+    setSections(await documentationService.generate(form));
     setCopied(null);
     setEditing({});
   };
@@ -101,6 +108,7 @@ function Index() {
     setSections(null);
     setCopied(null);
     setEditing({});
+    setTouched({});
   };
 
   const copyText = async (id: string, text: string) => {
@@ -115,11 +123,12 @@ function Index() {
 
   const copyAll = () => {
     if (!sections) return;
-    copyText("__all__", buildFullDocument(sections, form));
+    copyText("__all__", documentationService.buildDocument(sections, form));
   };
 
   const editSection = (id: string, content: string) =>
     setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
+
 
 
   return (
@@ -150,7 +159,12 @@ function Index() {
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            {fields.map((field) => (
+            {fields.map((field) => {
+              const error = errors[field.key as RequiredField];
+              const showError = !!error && !!touched[field.key as RequiredField];
+              
+              const value = form[field.key];
+              return (
               <div
                 key={field.key}
                 className={`flex flex-col gap-1.5 ${field.full ? "sm:col-span-2" : ""}`}
@@ -160,14 +174,20 @@ function Index() {
                   className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
                 >
                   {field.label}
+                  {field.required ? <span aria-hidden> *</span> : null}
                 </label>
                 {field.multiline ? (
-                  <textarea
+                  <AutoTextarea
                     id={field.key}
-                    rows={field.full ? 3 : 4}
-                    value={form[field.key]}
+                    minRows={field.full ? 3 : 4}
+                    value={value}
                     onChange={(e) => update(field.key, e.target.value)}
+                    onBlur={() =>
+                      field.required &&
+                      setTouched((p) => ({ ...p, [field.key as RequiredField]: true }))
+                    }
                     placeholder={field.placeholder}
+                    aria-invalid={showError || undefined}
                     className={`w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30 ${
                       field.mono ? "font-mono text-[13px]" : ""
                     }`}
@@ -175,23 +195,39 @@ function Index() {
                 ) : (
                   <input
                     id={field.key}
-                    value={form[field.key]}
+                    value={value}
                     onChange={(e) => update(field.key, e.target.value)}
+                    onBlur={() =>
+                      field.required &&
+                      setTouched((p) => ({ ...p, [field.key as RequiredField]: true }))
+                    }
                     placeholder={field.placeholder}
+                    aria-invalid={showError || undefined}
                     className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
                   />
                 )}
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-[11px] text-destructive">{showError ? error : ""}</p>
+                  {field.multiline ? (
+                    <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/70">
+                      {value.length} characters
+                    </span>
+                  ) : null}
+                </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <button
               onClick={handleGenerate}
-              className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+              disabled={!isValid}
+              className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Generate Documentation
             </button>
+
             <button
               onClick={handleClear}
               className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted"
