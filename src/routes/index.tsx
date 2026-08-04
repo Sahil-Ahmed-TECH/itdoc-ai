@@ -72,6 +72,7 @@ const fields: {
     label: "Resolution",
     placeholder: "Removed stale credential entry and recreated the Outlook profile.",
     multiline: true,
+    required: true,
   },
   {
     key: "notes",
@@ -161,7 +162,7 @@ function Index() {
             {fields.map((field) => {
               const error = errors[field.key as RequiredField];
               const showError = !!error && !!touched[field.key as RequiredField];
-              const markRequired = field.key in errors || error !== undefined;
+              
               const value = form[field.key];
               return (
               <div
