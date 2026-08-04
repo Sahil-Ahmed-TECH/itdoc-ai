@@ -20,135 +20,147 @@ export const emptyTicket: TicketInput = {
   notes: "",
 };
 
-const fallback = (value: string, alt: string) => (value.trim() ? value.trim() : alt);
-
-const bullets = (value: string, alt: string) => {
-  const lines = value
-    .split("\n")
-    .map((l) => l.replace(/^[-*\d.)\s]+/, "").trim())
-    .filter(Boolean);
-  if (!lines.length) return `- ${alt}`;
-  return lines.map((l) => `- ${l}`).join("\n");
-};
-
-const numbered = (value: string, alt: string) => {
-  const lines = value
-    .split("\n")
-    .map((l) => l.replace(/^[-*\d.)\s]+/, "").trim())
-    .filter(Boolean);
-  if (!lines.length) return `1. ${alt}`;
-  return lines.map((l, i) => `${i + 1}. ${l}`).join("\n");
-};
-
 export interface GeneratedSection {
   id: string;
   title: string;
   content: string;
 }
 
+const clean = (value: string) => value.trim();
+const has = (value: string) => clean(value).length > 0;
+
+/** Split a multi-line field into clean items, stripping any existing list markers. */
+const items = (value: string) =>
+  value
+    .split("\n")
+    .map((l) => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim())
+    .filter(Boolean);
+
+const bulletList = (value: string) => items(value).map((l) => `- ${l}`).join("\n");
+
+const numberedList = (value: string) =>
+  items(value)
+    .map((l, i) => `${i + 1}. ${l}`)
+    .join("\n");
+
+/** Preserve commands exactly as entered, only trimming surrounding blank lines. */
+const commandBlock = (value: string) => value.replace(/^\n+|\s+$/g, "");
+
+/** Join non-empty blocks with a single blank line between them. */
+const compose = (blocks: (string | null | undefined | false)[]) =>
+  blocks.filter(Boolean).join("\n\n").trim();
+
 export function generateDocumentation(input: TicketInput): GeneratedSection[] {
-  const user = fallback(input.userName, "End user");
-  const device = fallback(input.deviceName, "assigned workstation");
-  const summary = fallback(input.issueSummary, "Reported issue affecting normal device operation");
-  const resolution = fallback(input.resolution, "Issue resolved and service restored");
-  const date = new Date().toLocaleDateString(undefined, {
+  const user = clean(input.userName);
+  const device = clean(input.deviceName);
+  const summary = clean(input.issueSummary);
+  const resolution = clean(input.resolution);
+  const notes = clean(input.notes);
+  const date = new Date().toLocaleDateString("en-GB", {
     year: "numeric",
     month: "short",
-    day: "numeric",
+    day: "2-digit",
   });
 
-  return [
-    {
-      id: "ticket-description",
-      title: "Ticket Description",
-      content: `Reported by: ${user}
-Device: ${device}
-Date logged: ${date}
+  const meta = compose([
+    user && `**Reported by:** ${user}`,
+    device && `**Affected device:** ${device}`,
+    `**Date logged:** ${date}`,
+  ]);
 
-Summary
-${summary}
+  const sections: GeneratedSection[] = [];
 
-Reported symptoms
-${bullets(input.symptoms, "No specific symptoms captured at intake.")}
+  // 1. Ticket Description
+  sections.push({
+    id: "ticket-description",
+    title: "Ticket Description",
+    content: compose([
+      "## Ticket Description",
+      meta,
+      summary && `**Issue**\n${summary}`,
+      has(input.symptoms) && `**Reported symptoms**\n${bulletList(input.symptoms)}`,
+    ]),
+  });
 
-Impact
-The issue affected ${user}'s ability to work normally on ${device} until support intervention was completed.`,
-    },
-    {
-      id: "resolution-summary",
-      title: "Resolution Summary",
-      content: `Issue: ${summary}
-Device: ${device}
-Status: Resolved
+  // 2. Troubleshooting Performed
+  if (has(input.steps) || has(input.commands)) {
+    sections.push({
+      id: "troubleshooting-performed",
+      title: "Troubleshooting Performed",
+      content: compose([
+        "## Troubleshooting Performed",
+        has(input.steps) && numberedList(input.steps),
+        has(input.commands) &&
+          `**Commands executed**\n\`\`\`\n${commandBlock(input.commands)}\n\`\`\``,
+      ]),
+    });
+  }
 
-Actions performed
-${numbered(input.steps, "Standard triage and verification performed.")}
+  // 3. Resolution
+  if (resolution) {
+    sections.push({
+      id: "resolution",
+      title: "Resolution",
+      content: compose([
+        "## Resolution",
+        resolution,
+        `**Status:** Resolved${user ? ` — confirmed working with ${user}.` : "."}`,
+      ]),
+    });
+  }
 
-Resolution
-${resolution}
+  // 4. End User Update
+  sections.push({
+    id: "end-user-update",
+    title: "End User Update",
+    content: compose([
+      "## End User Update",
+      user ? `Hi ${user},` : "Hello,",
+      summary
+        ? `Thank you for reporting the issue${device ? ` on ${device}` : ""}: ${summary}`
+        : `Thank you for your patience while we worked on your ticket${device ? ` for ${device}` : ""}.`,
+      resolution && `**What we did**\n${resolution}`,
+      "The service has been restored and verified. If the issue returns, reply to this ticket and we will reopen it straight away.",
+      "Kind regards,\nIT Service Desk",
+    ]),
+  });
 
-Verification
-Functionality was confirmed with ${user} after the fix, and no recurrence was observed during post-resolution checks.`,
-    },
-    {
+  // 5. Internal Technical Notes
+  if (has(input.symptoms) || has(input.commands) || notes || resolution) {
+    sections.push({
       id: "internal-notes",
       title: "Internal Technical Notes",
-      content: `Technical breakdown for ${device}.
+      content: compose([
+        "## Internal Technical Notes",
+        has(input.symptoms) && `**Observations**\n${bulletList(input.symptoms)}`,
+        resolution && `**Root cause / fix applied**\n${resolution}`,
+        has(input.commands) &&
+          `**Reference commands**\n\`\`\`\n${commandBlock(input.commands)}\n\`\`\``,
+        notes && `**Additional notes**\n${notes}`,
+        `**Follow-up**\nMonitor${device ? ` ${device}` : ""} for recurrence; escalate to Tier 2 if the same behaviour is reported within 7 days.`,
+      ]),
+    });
+  }
 
-Diagnostics / troubleshooting path
-${numbered(input.steps, "Baseline diagnostics executed.")}
+  // 6. Knowledge Base Draft
+  sections.push({
+    id: "kb-draft",
+    title: "Knowledge Base Draft",
+    content: compose([
+      `## ${summary || "Knowledge Base Draft"}`,
+      device && `**Applies to:** ${device}`,
+      has(input.symptoms) && `**Symptoms**\n${bulletList(input.symptoms)}`,
+      has(input.steps) && `**Diagnostic steps**\n${numberedList(input.steps)}`,
+      has(input.commands) && `**Commands**\n\`\`\`\n${commandBlock(input.commands)}\n\`\`\``,
+      resolution && `**Resolution**\n${resolution}`,
+      notes && `**Notes**\n${notes}`,
+    ]),
+  });
 
-Commands executed
-${input.commands.trim() ? input.commands.trim() : "(no commands recorded)"}
+  return sections;
+}
 
-Observations
-${bullets(input.symptoms, "No anomalies logged beyond the reported issue.")}
-
-Additional notes
-${fallback(input.notes, "None.")}
-
-Follow-up: monitor ${device} for recurrence; escalate to tier 2 if the same symptoms return within 7 days.`,
-    },
-    {
-      id: "end-user-update",
-      title: "End User Update",
-      content: `Hi ${user},
-
-Thanks for your patience while we looked into the issue on your ${device}.
-
-What was happening: ${summary}
-
-What we did: ${resolution}
-
-Your device should now be working as expected. If you notice anything similar again, just reply to this ticket and we'll pick it straight back up.
-
-Best regards,
-IT Support`,
-    },
-    {
-      id: "kb-article",
-      title: "Knowledge Base Article Draft",
-      content: `Title: ${summary}
-
-Applies to: ${device}
-
-Symptoms
-${bullets(input.symptoms, "Device does not behave as expected.")}
-
-Cause
-Based on the troubleshooting performed, the behaviour was traced to the condition addressed by the resolution below.
-
-Resolution steps
-${numbered(input.steps, "Run standard diagnostics for the affected component.")}
-
-Reference commands
-${input.commands.trim() ? input.commands.trim() : "(none)"}
-
-Outcome
-${resolution}
-
-Notes
-${fallback(input.notes, "No additional notes.")}`,
-    },
-  ];
+export function buildFullDocument(sections: GeneratedSection[], input: TicketInput) {
+  const title = clean(input.issueSummary) || "IT Support Ticket Documentation";
+  return compose([`# ${title}`, ...sections.map((s) => s.content), "---"]);
 }
