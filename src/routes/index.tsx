@@ -37,7 +37,7 @@ const fields: {
   mono?: boolean;
   full?: boolean;
 }[] = [
-  { key: "userName", label: "User Name", placeholder: "Jane Doe" },
+  { key: "userName", label: "User Name", placeholder: "Joel Miller" },
   { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
   {
     key: "issueSummary",
