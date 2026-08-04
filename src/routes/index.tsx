@@ -84,12 +84,17 @@ function Index() {
   const [sections, setSections] = useState<GeneratedSection[] | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [editing, setEditing] = useState<Record<string, boolean>>({});
+  const [touched, setTouched] = useState<Partial<Record<RequiredField, boolean>>>({});
+
+  const errors = useMemo(() => validateTicket(form), [form]);
+  const isValid = Object.keys(errors).length === 0;
 
   const update = (key: keyof TicketInput, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const handleGenerate = () => {
-    setSections(generateDocumentation(form));
+  const handleGenerate = async () => {
+    if (!isValid) return;
+    setSections(await documentationService.generate(form));
     setCopied(null);
     setEditing({});
   };
@@ -99,6 +104,7 @@ function Index() {
     setSections(null);
     setCopied(null);
     setEditing({});
+    setTouched({});
   };
 
   const copyText = async (id: string, text: string) => {
@@ -113,11 +119,12 @@ function Index() {
 
   const copyAll = () => {
     if (!sections) return;
-    copyText("__all__", buildFullDocument(sections, form));
+    copyText("__all__", documentationService.buildDocument(sections, form));
   };
 
   const editSection = (id: string, content: string) =>
     setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
+
 
 
   return (
