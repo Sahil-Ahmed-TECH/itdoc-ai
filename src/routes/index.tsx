@@ -170,6 +170,30 @@ function Index() {
             Fill in what you know — empty fields are handled gracefully.
           </p>
 
+          <div className="mt-5 flex flex-col gap-1.5">
+            <label
+              htmlFor="issue-template"
+              className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+            >
+              Issue Template
+            </label>
+            <select
+              id="issue-template"
+              value={templateId}
+              onChange={(e) => applyTemplate(e.target.value)}
+              className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+            >
+              {issueTemplates.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-[11px] text-muted-foreground/70">
+              Pre-fills starter content — every field stays editable.
+            </p>
+          </div>
+
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {fields.map((field) => {
               const error = errors[field.key as RequiredField];
