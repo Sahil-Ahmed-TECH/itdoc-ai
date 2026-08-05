@@ -1,74 +1,74 @@
 # ITDoc AI
 
-Build a modern AI-powered IT Ticket Documentation Generator.
+An AI-powered IT Service Desk Toolkit designed to help IT Support Engineers quickly generate professional ticket documentation, knowledge base articles, technical notes, and user communication.
 
-The application should have a clean, dark professional interface.
+---
 
-Features:
+## Features
 
-- A form where the user enters:
+- AI Ticket Documentation Generator
+- Knowledge Base Generator
+- End User Update Generator
+- Internal Technical Notes
+- Copy-ready Ticket Notes
+- Pre-built IT Support Templates
 
-  - User Name
+---
 
-  - Device Name
+## Current Version
 
-  - Issue Summary
+**v0.1.0**
 
-  - Symptoms
+---
 
-  - Troubleshooting Steps Performed
+## Completed
 
-  - Commands Used
+- ✅ Ticket Documentation Generator
+- ✅ Knowledge Base Generator
+- ✅ GitHub Integration
+- ✅ Lovable AI Integration
+- ✅ Template-based Ticket Creation
 
-  - Resolution
+---
 
-  - Additional Notes
+## Currently Working On
 
-- A Generate Documentation button.
+- Improving AI-generated documentation
+- Better ticket templates
+- Smarter Knowledge Base generation
 
-When clicked, generate:
+---
 
-1. Ticket Description
+## Planned Features
 
-2. Resolution Summary
+- User Login
+- Ticket History
+- Export to PDF
+- Searchable Knowledge Base
+- Dark / Light Theme
+- Dashboard & Analytics
+- AI Chat Assistant
 
-3. Internal Technical Notes
+---
 
-4. End User Update
+## Tech Stack
 
-5. Knowledge Base Article Draft
+- Lovable AI
+- React
+- TypeScript
+- Vite
+- GitHub
 
-The generated text should be editable before copying.
+---
 
-Include Copy buttons for every section.
+## Project Goal
 
-Include Clear Form button.
+To build a real-world AI assistant that helps IT Support Engineers save time by generating consistent, professional-quality ticket documentation and knowledge base articles.
 
-The layout should be responsive and professional.
+---
 
-Do not require login.
+## Author
 
-Use mock data only.
+**Sahil Ahmed**
 
-Create this as a single-page application.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/34719685-9837-4024-9f3e-0612bcfee8d9).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+IT Support Engineer | Building AI tools for IT Operations.
