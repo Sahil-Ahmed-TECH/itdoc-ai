@@ -23,11 +23,11 @@ An AI-powered IT Service Desk Toolkit designed to help IT Support Engineers quic
 
 ## Completed
 
-- ✅ Ticket Documentation Generator
-- ✅ Knowledge Base Generator
-- ✅ GitHub Integration
-- ✅ Lovable AI Integration
-- ✅ Template-based Ticket Creation
+-  Ticket Documentation Generator
+-  Knowledge Base Generator
+-  GitHub Integration
+-  Lovable AI Integration
+-  Template-based Ticket Creation
 
 ---
 
