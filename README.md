@@ -67,6 +67,12 @@ To build a real-world AI assistant that helps IT Support Engineers save time by 
 
 ---
 
+## Screenshots
+
+Coming Soon
+
+This section will contain screenshots of the application as development progresses.
+
 ## Author
 
 **Sahil Ahmed**
