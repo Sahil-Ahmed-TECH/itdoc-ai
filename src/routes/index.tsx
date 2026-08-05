@@ -5,6 +5,7 @@ import { documentationService } from "@/lib/doc-service";
 import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
 import { AutoTextarea } from "@/components/AutoTextarea";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
+import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
 
 
 export const Route = createFileRoute("/")({
