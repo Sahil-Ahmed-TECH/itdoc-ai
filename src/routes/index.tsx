@@ -4,6 +4,7 @@ import { emptyTicket, type GeneratedSection, type TicketInput } from "@/lib/gene
 import { documentationService } from "@/lib/doc-service";
 import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
 import { AutoTextarea } from "@/components/AutoTextarea";
+import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 
 
 export const Route = createFileRoute("/")({
