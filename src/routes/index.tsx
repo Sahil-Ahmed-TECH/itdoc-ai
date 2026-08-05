@@ -90,12 +90,21 @@ function Index() {
   const [copied, setCopied] = useState<string | null>(null);
   const [editing, setEditing] = useState<Record<string, boolean>>({});
   const [touched, setTouched] = useState<Partial<Record<RequiredField, boolean>>>({});
+  const [templateId, setTemplateId] = useState<string>(blankTemplateId);
 
   const errors = useMemo(() => validateTicket(form), [form]);
   const isValid = Object.keys(errors).length === 0;
 
   const update = (key: keyof TicketInput, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
+
+  const applyTemplate = (id: string) => {
+    setTemplateId(id);
+    const template = getIssueTemplate(id);
+    if (!template) return;
+    setForm((prev) => ({ ...prev, ...template.fields }));
+    setTouched({});
+  };
 
   const handleGenerate = async () => {
     if (!isValid) return;
@@ -110,7 +119,9 @@ function Index() {
     setCopied(null);
     setEditing({});
     setTouched({});
+    setTemplateId(blankTemplateId);
   };
+
 
   const copyText = async (id: string, text: string) => {
     try {
