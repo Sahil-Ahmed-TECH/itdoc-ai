@@ -5,6 +5,7 @@ import { documentationService } from "@/lib/doc-service";
 import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
 import { AutoTextarea } from "@/components/AutoTextarea";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
+import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
 
 
 export const Route = createFileRoute("/")({
@@ -91,6 +92,8 @@ function Index() {
   const [editing, setEditing] = useState<Record<string, boolean>>({});
   const [touched, setTouched] = useState<Partial<Record<RequiredField, boolean>>>({});
   const [templateId, setTemplateId] = useState<string>(blankTemplateId);
+  const [kb, setKb] = useState<KbArticle | null>(null);
+  const [kbEditing, setKbEditing] = useState(false);
 
   const errors = useMemo(() => validateTicket(form), [form]);
   const isValid = Object.keys(errors).length === 0;
@@ -113,9 +116,18 @@ function Index() {
     setEditing({});
   };
 
+  const handleGenerateKb = () => {
+    if (!isValid) return;
+    setKb(generateKnowledgeBase(form));
+    setKbEditing(false);
+    setCopied(null);
+  };
+
   const handleClear = () => {
     setForm(emptyTicket);
     setSections(null);
+    setKb(null);
+    setKbEditing(false);
     setCopied(null);
     setEditing({});
     setTouched({});
@@ -265,6 +277,14 @@ function Index() {
             </button>
 
             <button
+              onClick={handleGenerateKb}
+              disabled={!isValid}
+              className="inline-flex flex-1 items-center justify-center rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Generate Knowledge Base
+            </button>
+
+            <button
               onClick={handleClear}
               className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted"
             >
@@ -344,6 +364,41 @@ function Index() {
               })}
             </>
           )}
+
+          {kb ? (
+            <article className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-sm font-semibold tracking-tight">Knowledge Base</h2>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setKbEditing((v) => !v)}
+                    className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                  >
+                    {kbEditing ? "Done" : "Edit"}
+                  </button>
+                  <button
+                    onClick={() => copyText("__kb__", kb.content)}
+                    className="rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
+                  >
+                    {copied === "__kb__" ? "Copied" : "Copy Knowledge Base"}
+                  </button>
+                </div>
+              </div>
+              {kbEditing ? (
+                <textarea
+                  value={kb.content}
+                  onChange={(e) => setKb((prev) => (prev ? { ...prev, content: e.target.value } : prev))}
+                  rows={Math.min(30, kb.content.split("\n").length + 2)}
+                  aria-label="Knowledge Base editor"
+                  className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                />
+              ) : (
+                <pre className="w-full overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-border/60 bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground">
+                  {kb.content}
+                </pre>
+              )}
+            </article>
+          ) : null}
 
         </section>
       </main>
