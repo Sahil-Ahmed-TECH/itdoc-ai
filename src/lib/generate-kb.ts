@@ -56,7 +56,6 @@ export function generateKnowledgeBase(input: TicketInput): KbArticle {
     summary && `## Summary\n${summary}`,
     device && `## Environment / Affected System\n- ${device}`,
     symptoms && `## Symptoms\n${bulletList(symptoms)}`,
-    notes && `## Root Cause\n${notes}`,
     resolution && `## Resolution\n${resolution}`,
     commands && `## Commands Used\n\`\`\`\n${commandBlock(commands)}\n\`\`\``,
     steps && `## Verification Steps\n${numberedList(steps)}`,
