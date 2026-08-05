@@ -4,6 +4,7 @@ import { emptyTicket, type GeneratedSection, type TicketInput } from "@/lib/gene
 import { documentationService } from "@/lib/doc-service";
 import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
 import { AutoTextarea } from "@/components/AutoTextarea";
+import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 
 
 export const Route = createFileRoute("/")({
@@ -89,12 +90,21 @@ function Index() {
   const [copied, setCopied] = useState<string | null>(null);
   const [editing, setEditing] = useState<Record<string, boolean>>({});
   const [touched, setTouched] = useState<Partial<Record<RequiredField, boolean>>>({});
+  const [templateId, setTemplateId] = useState<string>(blankTemplateId);
 
   const errors = useMemo(() => validateTicket(form), [form]);
   const isValid = Object.keys(errors).length === 0;
 
   const update = (key: keyof TicketInput, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
+
+  const applyTemplate = (id: string) => {
+    setTemplateId(id);
+    const template = getIssueTemplate(id);
+    if (!template) return;
+    setForm((prev) => ({ ...prev, ...template.fields }));
+    setTouched({});
+  };
 
   const handleGenerate = async () => {
     if (!isValid) return;
@@ -109,7 +119,9 @@ function Index() {
     setCopied(null);
     setEditing({});
     setTouched({});
+    setTemplateId(blankTemplateId);
   };
+
 
   const copyText = async (id: string, text: string) => {
     try {
@@ -157,6 +169,30 @@ function Index() {
           <p className="mt-1 text-xs text-muted-foreground">
             Fill in what you know — empty fields are handled gracefully.
           </p>
+
+          <div className="mt-5 flex flex-col gap-1.5">
+            <label
+              htmlFor="issue-template"
+              className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+            >
+              Issue Template
+            </label>
+            <select
+              id="issue-template"
+              value={templateId}
+              onChange={(e) => applyTemplate(e.target.value)}
+              className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+            >
+              {issueTemplates.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-[11px] text-muted-foreground/70">
+              Pre-fills starter content — every field stays editable.
+            </p>
+          </div>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {fields.map((field) => {
