@@ -32,7 +32,7 @@ export const issueTemplates: IssueTemplate[] = [
   { id: blankTemplateId, label: "Blank Ticket", fields: blankFields },
   {
     id: "outlook",
-    label: "Outlook",
+    label: "Outlook Issues",
     fields: {
       issueSummary: "Outlook repeatedly prompts for credentials and fails to sync the mailbox.",
       symptoms:
@@ -233,6 +233,126 @@ export const issueTemplates: IssueTemplate[] = [
         "Add an uninstall step to the deployment for devices upgrading from the legacy version.",
     },
   },
+  {
+    id: "teams",
+    label: "Microsoft Teams",
+    fields: {
+      issueSummary: "Microsoft Teams fails to load chats and calls drop shortly after connecting.",
+      symptoms:
+        "Teams stalls on the loading spinner at launch\nChat history intermittently unavailable\nCalls disconnect after 10-20 seconds\nTeams on the web behaves normally",
+      steps:
+        "Confirmed Microsoft 365 service health showed no active Teams incident\nSigned the user out and cleared the Teams client cache\nVerified the client was on the current supported version\nTested audio/video on the corporate network and over VPN\nCollected Teams diagnostic logs before re-testing the call path",
+      commands:
+        "Get-CsOnlineUser -Identity user@contoso.com | Format-List\nTest-NetConnection worldaz.tr.teams.microsoft.com -Port 443\nRemove-Item \"$env:APPDATA\\Microsoft\\Teams\" -Recurse -Force",
+      resolution:
+        "A corrupt local Teams cache prevented the client from completing sign-in. Clearing the cache and reinstalling the current client restored chat loading, and call quality was stable across a five-minute test call.",
+      notes:
+        "Advise users to sign out of Teams before shutdown when working over unstable connections. Monitor for repeat cache corruption on this hardware model.",
+    },
+  },
+  {
+    id: "onedrive",
+    label: "OneDrive",
+    fields: {
+      issueSummary: "OneDrive sync stalled; local file changes are not reaching SharePoint.",
+      symptoms:
+        "OneDrive icon shows a permanent 'Syncing' state\nRed cross on the sync client in the notification area\nRecent documents missing from the web view\nUser warned about approaching storage quota",
+      steps:
+        "Checked available OneDrive storage and local disk space\nReviewed the sync client for blocked or invalid file names\nUnlinked and relinked the OneDrive account\nReset the sync client and allowed a full re-scan\nConfirmed recent edits appeared in the SharePoint web view",
+      commands:
+        "%localappdata%\\Microsoft\\OneDrive\\onedrive.exe /reset\nGet-MgUserDrive -UserId user@contoso.com\nGet-SPOSite -Identity https://contoso-my.sharepoint.com/personal/user_contoso_com",
+      resolution:
+        "Two files with unsupported characters were blocking the sync queue. Renamed the offending files and reset the client; a full sync completed and all changes replicated to SharePoint.",
+      notes:
+        "Recommend the file-naming standard be circulated to the team. Monitor quota usage as the account is at 78 per cent.",
+    },
+  },
+  {
+    id: "windows-login",
+    label: "Windows Login",
+    fields: {
+      issueSummary: "User cannot sign in to Windows; the device reports no logon servers available.",
+      symptoms:
+        "'There are currently no logon servers available' at sign-in\nCached credentials only work offline\nDevice unreachable by remote management tools",
+      steps:
+        "Confirmed the device had a working network connection before sign-in\nChecked the secure channel between the workstation and the domain\nReviewed domain controller availability and DNS settings on the adapter\nRepaired the computer account trust relationship\nRestarted the device and validated a full domain sign-in",
+      commands:
+        "nltest /sc_query:contoso.com\nTest-ComputerSecureChannel -Repair -Credential (Get-Credential)\nipconfig /all\nnslookup contoso.com",
+      resolution:
+        "The workstation's secure channel with the domain had broken after an extended offline period. Repairing the trust relationship and restarting the device restored normal domain sign-in.",
+      notes:
+        "Devices offline beyond the machine password age are prone to this. Recommend a periodic on-network check-in for long-term remote devices.",
+    },
+  },
+  {
+    id: "shared-mailbox",
+    label: "Shared Mailbox",
+    fields: {
+      issueSummary: "User cannot access the shared mailbox or send on its behalf.",
+      symptoms:
+        "Shared mailbox missing from the Outlook folder list\n'You do not have permission to send on behalf of the specified user' on send\nMailbox accessible from Outlook on the web only",
+      steps:
+        "Verified Full Access and Send As permissions on the shared mailbox\nConfirmed automapping status for the delegated user\nRemoved and re-added the permission to trigger automapping\nCleared the Outlook autocomplete cache to drop stale entries\nRecreated the Outlook profile and confirmed the mailbox mounted",
+      commands:
+        "Get-MailboxPermission -Identity finance@contoso.com\nAdd-MailboxPermission -Identity finance@contoso.com -User jmiller -AccessRights FullAccess -AutoMapping $true\nAdd-RecipientPermission -Identity finance@contoso.com -Trustee jmiller -AccessRights SendAs",
+      resolution:
+        "Full Access had been granted with automapping disabled and Send As was missing. Re-applied both permissions and recreated the Outlook profile; the mailbox mounted automatically and a test message sent successfully.",
+      notes:
+        "Permission changes can take up to 60 minutes to propagate. Document the mailbox owner for future access approvals.",
+    },
+  },
+  {
+    id: "distribution-list",
+    label: "Distribution List",
+    fields: {
+      issueSummary: "Messages sent to a distribution list are not reaching all members.",
+      symptoms:
+        "Some members never receive list mail\nExternal senders receive a delivery restriction NDR\nList membership appears correct in the admin centre",
+      steps:
+        "Reviewed the distribution group membership and nesting\nChecked delivery management and message approval settings\nRan message trace for a recent affected message\nConfirmed no transport rule was redirecting or dropping the mail\nSent a test message and verified delivery to every member",
+      commands:
+        "Get-DistributionGroup -Identity all-finance@contoso.com | Format-List\nGet-DistributionGroupMember -Identity all-finance@contoso.com\nGet-MessageTrace -RecipientAddress all-finance@contoso.com -StartDate (Get-Date).AddDays(-1) -EndDate (Get-Date)",
+      resolution:
+        "The group was restricted to internal senders only and one nested group had been emptied. Enabled external delivery where required and restored the nested membership; a test message reached all recipients.",
+      notes:
+        "Assign a business owner to the list so membership changes are reviewed before they are applied.",
+    },
+  },
+  {
+    id: "file-permissions",
+    label: "File Permissions",
+    fields: {
+      issueSummary: "User receives access denied when opening files in a shared department folder.",
+      symptoms:
+        "'You do not currently have permission to access this folder'\nOther team members open the same folder without issue\nRead access works but saving changes fails",
+      steps:
+        "Confirmed the correct security group grants access to the share\nCompared the user's group membership with a working colleague\nChecked both share-level and NTFS permissions on the folder\nAdded the user to the correct access group and refreshed their token\nSigned the user out and back in, then verified read and write access",
+      commands:
+        "whoami /groups\nicacls \"\\\\fs01\\finance\\reports\"\nGet-ADPrincipalGroupMembership jmiller | Select-Object Name\ngpupdate /force",
+      resolution:
+        "The user was missing from the GRP-Finance-ReadWrite security group following a department transfer. Added the membership and refreshed the security token; read and write access were confirmed.",
+      notes:
+        "Include access group review in the internal transfer checklist to avoid repeat requests.",
+    },
+  },
+  {
+    id: "network-drive",
+    label: "Network Drive Mapping",
+    fields: {
+      issueSummary: "Mapped network drives fail to reconnect at sign-in.",
+      symptoms:
+        "Drives show a red cross in File Explorer\n'Could not reconnect all network drives' notification at logon\nUNC path opens correctly when entered manually",
+      steps:
+        "Confirmed the file server was reachable by name and by IP\nReviewed the Group Policy drive mapping preference and its targeting\nChecked for stale cached credentials for the file server\nRemapped the drive and forced a policy refresh\nSigned out and back in to confirm the drive reconnected automatically",
+      commands:
+        "net use\nnet use Z: /delete\nnet use Z: \\\\fs01\\finance /persistent:yes\ngpresult /h C:\\Temp\\gp.html\nTest-NetConnection fs01 -Port 445",
+      resolution:
+        "A stale cached credential for the file server prevented reconnection at logon. Cleared the credential, remapped the drive through Group Policy and confirmed automatic reconnection after a fresh sign-in.",
+      notes:
+        "Mapping is delivered by GPO — avoid manual persistent mappings on managed devices to prevent conflicts.",
+    },
+  },
 ];
+
 
 export const getIssueTemplate = (id: string) => issueTemplates.find((t) => t.id === id);

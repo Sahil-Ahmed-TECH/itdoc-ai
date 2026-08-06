@@ -104,7 +104,7 @@ export function generateDocumentation(input: TicketInput): GeneratedSection[] {
       content: compose([
         "## Resolution",
         resolution,
-        `**Status:** Resolved${user ? ` — confirmed working with ${user}.` : "."}`,
+        `**Status:** Resolved — service verified as operational${user ? ` with ${user}` : ""}.`,
       ]),
     });
   }
@@ -117,10 +117,10 @@ export function generateDocumentation(input: TicketInput): GeneratedSection[] {
       "## End User Update",
       user ? `Hi ${user},` : "Hello,",
       summary
-        ? `Thank you for reporting the issue${device ? ` on ${device}` : ""}: ${summary}`
-        : `Thank you for your patience while we worked on your ticket${device ? ` for ${device}` : ""}.`,
+        ? `Thanks for reporting the issue${device ? ` on ${device}` : ""}. We have completed our investigation into the following: ${summary}`
+        : `Thanks for your patience while we worked on your ticket${device ? ` for ${device}` : ""}.`,
       resolution && `**What we did**\n${resolution}`,
-      "The service has been restored and verified. If the issue returns, reply to this ticket and we will reopen it straight away.",
+      "Your service has been restored and tested. If the problem returns, reply to this ticket and we will reopen it immediately.",
       "Kind regards,\nIT Service Desk",
     ]),
   });
