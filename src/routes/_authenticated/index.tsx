@@ -252,9 +252,12 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border/70 bg-card/40 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-7 sm:px-8">
-          <span className="w-fit rounded-full border border-border bg-surface-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            IT Service Desk Toolkit
-          </span>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="w-fit rounded-full border border-border bg-surface-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              IT Service Desk Toolkit
+            </span>
+            <UserMenu />
+          </div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             ITDoc AI — IT Ticket Documentation Generator
           </h1>
