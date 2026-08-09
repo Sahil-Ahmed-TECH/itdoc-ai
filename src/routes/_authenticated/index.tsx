@@ -10,7 +10,7 @@ import { analyzeNotes } from "@/lib/analyze-notes";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
     meta: [
       { title: "ITDoc AI — IT Ticket Documentation Generator" },
