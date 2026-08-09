@@ -14,7 +14,206 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ai_generations: {
+        Row: {
+          created_at: string
+          generation_time_ms: number | null
+          generation_type: string
+          id: string
+          input_tokens: number | null
+          model: string
+          output_tokens: number | null
+          prompt_version: string | null
+          provider: string
+          ticket_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          generation_time_ms?: number | null
+          generation_type: string
+          id?: string
+          input_tokens?: number | null
+          model: string
+          output_tokens?: number | null
+          prompt_version?: string | null
+          provider: string
+          ticket_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          generation_time_ms?: number | null
+          generation_type?: string
+          id?: string
+          input_tokens?: number | null
+          model?: string
+          output_tokens?: number | null
+          prompt_version?: string | null
+          provider?: string
+          ticket_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_generations_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_generations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_base_articles: {
+        Row: {
+          additional_notes: string | null
+          created_at: string
+          environment: string | null
+          id: string
+          keywords: string[] | null
+          problem_statement: string | null
+          resolution: string | null
+          status: string
+          symptoms: string | null
+          ticket_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          additional_notes?: string | null
+          created_at?: string
+          environment?: string | null
+          id?: string
+          keywords?: string[] | null
+          problem_statement?: string | null
+          resolution?: string | null
+          status?: string
+          symptoms?: string | null
+          ticket_id?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          additional_notes?: string | null
+          created_at?: string
+          environment?: string | null
+          id?: string
+          keywords?: string[] | null
+          problem_statement?: string | null
+          resolution?: string | null
+          status?: string
+          symptoms?: string | null
+          ticket_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_base_articles_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_base_articles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          created_at: string
+          generated_resolution: string | null
+          generated_summary: string | null
+          generated_symptoms: string | null
+          generated_troubleshooting: string | null
+          id: string
+          issue_title: string | null
+          status: string
+          technician_notes: string
+          ticket_number: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          generated_resolution?: string | null
+          generated_summary?: string | null
+          generated_symptoms?: string | null
+          generated_troubleshooting?: string | null
+          id?: string
+          issue_title?: string | null
+          status?: string
+          technician_notes: string
+          ticket_number?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          generated_resolution?: string | null
+          generated_summary?: string | null
+          generated_symptoms?: string | null
+          generated_troubleshooting?: string | null
+          id?: string
+          issue_title?: string | null
+          status?: string
+          technician_notes?: string
+          ticket_number?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
