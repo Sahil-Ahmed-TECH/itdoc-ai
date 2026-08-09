@@ -6,6 +6,7 @@ import { documentationService } from "@/lib/doc-service";
 import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
 import { AutoTextarea } from "@/components/AutoTextarea";
 import { QuickCapture } from "@/components/QuickCapture";
+import { UserMenu } from "@/components/UserMenu";
 import { analyzeNotes } from "@/lib/analyze-notes";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
