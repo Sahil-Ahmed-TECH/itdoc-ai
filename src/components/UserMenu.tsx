@@ -36,7 +36,7 @@ export function UserMenu() {
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center gap-2.5 rounded-lg px-3 py-2">
+      <div className="flex items-center gap-2.5 rounded-lg px-2.5 py-2">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-sidebar-accent-foreground">
           <User className="h-4 w-4" />
         </div>
