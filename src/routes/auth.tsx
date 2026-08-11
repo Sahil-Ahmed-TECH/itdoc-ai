@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ensureUserProfile } from "@/lib/auth-profile";
 
@@ -111,108 +112,136 @@ function AuthPage() {
 
   if (checking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
-        Loading…
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          Loading…
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-foreground">
-      <div className="w-full max-w-md rounded-xl border border-border/70 bg-card/60 p-7 backdrop-blur">
-        <span className="w-fit rounded-full border border-border bg-surface-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-          IT Service Desk Toolkit
-        </span>
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight">
-          {mode === "signin" ? "Sign in to ITDoc AI" : "Create your ITDoc AI account"}
-        </h1>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          {mode === "signin"
-            ? "Use your work email and password to access the documentation generator."
-            : "Sign up with an email and password to start generating documentation."}
-        </p>
+    <div className="flex min-h-screen bg-background">
+      <div className="hidden w-1/2 flex-col justify-between bg-sidebar p-12 lg:flex">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Zap className="h-5 w-5" />
+          </div>
+          <span className="text-lg font-semibold text-sidebar-foreground">ITDoc AI</span>
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold tracking-tight text-sidebar-foreground">
+            IT documentation, faster.
+          </h2>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-sidebar-foreground/60">
+            Turn raw troubleshooting notes into professional ticket documentation,
+            end-user updates and knowledge base articles in under a minute.
+          </p>
+        </div>
+        <p className="text-xs text-sidebar-foreground/40">IT Service Desk Toolkit</p>
+      </div>
 
-        <form onSubmit={submit} className="mt-6 flex flex-col gap-4">
-          {mode === "signup" && (
+      <div className="flex flex-1 items-center justify-center px-5 py-12">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex items-center gap-2.5 lg:hidden">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Zap className="h-5 w-5" />
+            </div>
+            <span className="text-lg font-semibold">ITDoc AI</span>
+          </div>
+
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {mode === "signin" ? "Sign in to your account" : "Create your account"}
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {mode === "signin"
+              ? "Use your work email and password to access the documentation generator."
+              : "Sign up with an email and password to start generating documentation."}
+          </p>
+
+          <form onSubmit={submit} className="mt-8 flex flex-col gap-4">
+            {mode === "signup" && (
+              <label className="flex flex-col gap-1.5 text-sm">
+                <span className="font-medium">Full name</span>
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Joel Miller"
+                  autoComplete="name"
+                  className="rounded-lg border border-input bg-surface-elevated px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+                />
+              </label>
+            )}
+
             <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-medium">Full name</span>
+              <span className="font-medium">Email</span>
               <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Joel Miller"
-                autoComplete="name"
-                className="rounded-md border border-border bg-surface-elevated px-3 py-2 text-sm outline-none focus:border-primary"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="joel.miller@company.com"
+                autoComplete="email"
+                className="rounded-lg border border-input bg-surface-elevated px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
               />
             </label>
-          )}
 
-          <label className="flex flex-col gap-1.5 text-sm">
-            <span className="font-medium">Email</span>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="joel.miller@company.com"
-              autoComplete="email"
-              className="rounded-md border border-border bg-surface-elevated px-3 py-2 text-sm outline-none focus:border-primary"
-            />
-          </label>
+            <label className="flex flex-col gap-1.5 text-sm">
+              <span className="font-medium">Password</span>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 6 characters"
+                autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                className="rounded-lg border border-input bg-surface-elevated px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+              />
+            </label>
 
-          <label className="flex flex-col gap-1.5 text-sm">
-            <span className="font-medium">Password</span>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
-              className="rounded-md border border-border bg-surface-elevated px-3 py-2 text-sm outline-none focus:border-primary"
-            />
-          </label>
+            {error && (
+              <p className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive">
+                {error}
+              </p>
+            )}
+            {notice && (
+              <p className="rounded-lg border border-border bg-surface-elevated px-3 py-2 text-xs text-muted-foreground">
+                {notice}
+              </p>
+            )}
 
-          {error && (
-            <p className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-              {error}
-            </p>
-          )}
-          {notice && (
-            <p className="rounded-md border border-border bg-surface-elevated px-3 py-2 text-xs text-muted-foreground">
-              {notice}
-            </p>
-          )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-1 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-60"
+            >
+              {loading
+                ? mode === "signin"
+                  ? "Signing in…"
+                  : "Creating account…"
+                : mode === "signin"
+                  ? "Sign in"
+                  : "Create account"}
+            </button>
+          </form>
 
           <button
-            type="submit"
-            disabled={loading}
-            className="mt-1 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+            type="button"
+            onClick={() => {
+              setMode(mode === "signin" ? "signup" : "signin");
+              setError(null);
+              setNotice(null);
+            }}
+            className="mt-5 w-full text-center text-xs text-muted-foreground underline-offset-4 hover:underline"
           >
-            {loading
-              ? mode === "signin"
-                ? "Signing in…"
-                : "Creating account…"
-              : mode === "signin"
-                ? "Sign in"
-                : "Create account"}
+            {mode === "signin"
+              ? "No account yet? Create one"
+              : "Already have an account? Sign in"}
           </button>
-        </form>
-
-        <button
-          type="button"
-          onClick={() => {
-            setMode(mode === "signin" ? "signup" : "signin");
-            setError(null);
-            setNotice(null);
-          }}
-          className="mt-5 w-full text-center text-xs text-muted-foreground underline-offset-4 hover:underline"
-        >
-          {mode === "signin"
-            ? "No account yet? Create one"
-            : "Already have an account? Sign in"}
-        </button>
+        </div>
       </div>
     </div>
   );

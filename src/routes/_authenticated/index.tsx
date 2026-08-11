@@ -6,10 +6,10 @@ import { documentationService } from "@/lib/doc-service";
 import { validateTicket, type RequiredField } from "@/lib/ticket-validation";
 import { AutoTextarea } from "@/components/AutoTextarea";
 import { QuickCapture } from "@/components/QuickCapture";
-import { UserMenu } from "@/components/UserMenu";
 import { analyzeNotes } from "@/lib/analyze-notes";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
+import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/")({
       {
         property: "og:description",
         content:
-          "Paste rough technician notes and generate editable, copy-ready IT service desk documentation — no login required.",
+          "Paste rough technician notes and generate editable, copy-ready IT service desk documentation.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/_authenticated/")({
   component: Index,
 });
 
-const fields: {
+interface FieldDef {
   key: keyof TicketInput;
   label: string;
   placeholder: string;
@@ -41,9 +41,9 @@ const fields: {
   mono?: boolean;
   full?: boolean;
   required?: boolean;
-}[] = [
-  { key: "userName", label: "User Name", placeholder: "Joel Miller", required: true },
-  { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
+}
+
+const issueFields: FieldDef[] = [
   {
     key: "issueSummary",
     label: "Issue Summary",
@@ -57,12 +57,22 @@ const fields: {
     label: "Symptoms",
     placeholder: "One per line\nRepeated credential prompts\nSend/receive error 0x8004010F",
     multiline: true,
+    full: true,
   },
+];
+
+const envFields: FieldDef[] = [
+  { key: "userName", label: "User Name", placeholder: "Joel Miller", required: true },
+  { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
+];
+
+const troubleshootFields: FieldDef[] = [
   {
     key: "steps",
     label: "Troubleshooting Steps Performed",
     placeholder: "One per line\nVerified account status in AD\nCleared cached credentials",
     multiline: true,
+    full: true,
   },
   {
     key: "commands",
@@ -70,12 +80,17 @@ const fields: {
     placeholder: "ipconfig /flushdns\nklist purge",
     multiline: true,
     mono: true,
+    full: true,
   },
+];
+
+const resolutionFields: FieldDef[] = [
   {
     key: "resolution",
     label: "Resolution",
     placeholder: "Removed stale credential entry and recreated the Outlook profile.",
     multiline: true,
+    full: true,
     required: true,
   },
   {
@@ -87,17 +102,13 @@ const fields: {
   },
 ];
 
-/** Shared button styles keep every action in the app visually consistent. */
-const btnPrimary =
-  "inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50";
-const btnSecondary =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50";
-const btnGhost =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50";
-const btnChip =
-  "rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50";
+const allFields: FieldDef[] = [
+  ...issueFields,
+  ...envFields,
+  ...troubleshootFields,
+  ...resolutionFields,
+];
 
-/** Fields that Analyze Notes may populate — used for the overwrite check. */
 const analysedKeys: (keyof TicketInput)[] = [
   "deviceName",
   "issueSummary",
@@ -107,6 +118,117 @@ const analysedKeys: (keyof TicketInput)[] = [
   "resolution",
   "notes",
 ];
+
+const btnPrimary =
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50";
+const btnSecondary =
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50";
+const btnGhost =
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50";
+
+function SectionCard({
+  id,
+  icon: Icon,
+  title,
+  description,
+  children,
+}: {
+  id: string;
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      className="h-fit rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
+    >
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+          <Icon className="h-4 w-4" />
+        </div>
+        <div>
+          <h2 className="text-sm font-semibold tracking-tight">{title}</h2>
+          <p className="text-xs text-muted-foreground">{description}</p>
+        </div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function FieldRenderer({
+  field,
+  form,
+  errors,
+  touched,
+  update,
+  setTouched,
+}: {
+  field: FieldDef;
+  form: TicketInput;
+  errors: Partial<Record<RequiredField, string>>;
+  touched: Partial<Record<RequiredField, boolean>>;
+  update: (key: keyof TicketInput, value: string) => void;
+  setTouched: React.Dispatch<React.SetStateAction<Partial<Record<RequiredField, boolean>>>>;
+}) {
+  const error = errors[field.key as RequiredField];
+  const showError = !!error && !!touched[field.key as RequiredField];
+  const value = form[field.key];
+
+  return (
+    <div className={`flex flex-col gap-1.5 ${field.full ? "sm:col-span-2" : ""}`}>
+      <label
+        htmlFor={field.key}
+        className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+      >
+        {field.label}
+        {field.required ? <span aria-hidden className="text-destructive"> *</span> : null}
+      </label>
+      {field.multiline ? (
+        <AutoTextarea
+          id={field.key}
+          minRows={field.full ? 3 : 4}
+          value={value}
+          onChange={(e) => update(field.key, e.target.value)}
+          onBlur={() =>
+            field.required &&
+            setTouched((p) => ({ ...p, [field.key as RequiredField]: true }))
+          }
+          placeholder={field.placeholder}
+          aria-invalid={showError || undefined}
+          className={`w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20 ${
+            field.mono ? "font-mono text-[13px]" : ""
+          } ${showError ? "border-destructive" : ""}`}
+        />
+      ) : (
+        <input
+          id={field.key}
+          value={value}
+          onChange={(e) => update(field.key, e.target.value)}
+          onBlur={() =>
+            field.required &&
+            setTouched((p) => ({ ...p, [field.key as RequiredField]: true }))
+          }
+          placeholder={field.placeholder}
+          aria-invalid={showError || undefined}
+          className={`w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20 ${
+            showError ? "border-destructive" : ""
+          }`}
+        />
+      )}
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-[11px] text-destructive">{showError ? error : ""}</p>
+        {field.multiline ? (
+          <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/70">
+            {value.length} characters
+          </span>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 function Index() {
   const [form, setForm] = useState<TicketInput>(emptyTicket);
@@ -162,7 +284,6 @@ function Index() {
     }
 
     setIsAnalyzing(true);
-    // Brief pause so the loading state is visible on very fast analyses.
     await new Promise((resolve) => setTimeout(resolve, 450));
 
     const analysis = analyzeNotes(rawNotes);
@@ -250,56 +371,54 @@ function Index() {
     setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border/70 bg-card/40 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-7 sm:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="w-fit rounded-full border border-border bg-surface-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              IT Service Desk Toolkit
+    <div id="top" className="min-h-full bg-background text-foreground">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        {/* Page header */}
+        <div className="mb-6 flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Dashboard</h1>
+            <span className="rounded-full border border-border bg-surface-elevated px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+              IT Service Desk
             </span>
-            <UserMenu />
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            ITDoc AI — IT Ticket Documentation Generator
-          </h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Capture the raw details once, then generate polished, editable documentation ready to
-            paste into ServiceNow, Freshservice, Jira, HaloPSA, Zendesk or your knowledge base.
+          <p className="text-sm text-muted-foreground">
+            Capture raw notes, generate professional documentation, and build your knowledge base.
           </p>
         </div>
-      </header>
 
-      <main className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-8 sm:px-8">
-        <QuickCapture
-          value={rawNotes}
-          onChange={setRawNotes}
-          onAnalyze={handleAnalyze}
-          onClear={handleClearNotes}
-          isAnalyzing={isAnalyzing}
-        />
+        {/* Quick Capture */}
+        <div id="quick-capture" className="mb-6">
+          <QuickCapture
+            value={rawNotes}
+            onChange={setRawNotes}
+            onAnalyze={handleAnalyze}
+            onClear={handleClearNotes}
+            isAnalyzing={isAnalyzing}
+          />
+        </div>
 
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-          <section
-            aria-label="Ticket details"
-            className="h-fit rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
-          >
-            <h2 className="text-base font-semibold tracking-tight">Ticket details</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Fill in what you know — empty fields are handled gracefully.
-            </p>
-
-            <div className="mt-5 flex flex-col gap-1.5">
-              <label
-                htmlFor="issue-template"
-                className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
-              >
-                Issue Template
-              </label>
+        {/* Two-column layout */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+          {/* Left: Ticket details form */}
+          <div id="ticket-details" className="flex flex-col gap-6">
+            {/* Template selector */}
+            <div className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]">
+              <div className="mb-4 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+                  <Settings className="h-4 w-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold tracking-tight">Issue Template</h2>
+                  <p className="text-xs text-muted-foreground">
+                    Pre-fills starter content — every field stays editable.
+                  </p>
+                </div>
+              </div>
               <select
                 id="issue-template"
                 value={templateId}
                 onChange={(e) => applyTemplate(e.target.value)}
-                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
               >
                 {issueTemplates.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -307,72 +426,98 @@ function Index() {
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-muted-foreground/70">
-                Pre-fills starter content — every field stays editable.
-              </p>
             </div>
 
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              {fields.map((field) => {
-                const error = errors[field.key as RequiredField];
-                const showError = !!error && !!touched[field.key as RequiredField];
-                const value = form[field.key];
-                return (
-                  <div
+            {/* Issue section */}
+            <SectionCard
+              id="issue-section"
+              icon={AlertCircle}
+              title="Issue"
+              description="What was reported and the symptoms observed."
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                {issueFields.map((field) => (
+                  <FieldRenderer
                     key={field.key}
-                    className={`flex flex-col gap-1.5 ${field.full ? "sm:col-span-2" : ""}`}
-                  >
-                    <label
-                      htmlFor={field.key}
-                      className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
-                    >
-                      {field.label}
-                      {field.required ? <span aria-hidden> *</span> : null}
-                    </label>
-                    {field.multiline ? (
-                      <AutoTextarea
-                        id={field.key}
-                        minRows={field.full ? 3 : 4}
-                        value={value}
-                        onChange={(e) => update(field.key, e.target.value)}
-                        onBlur={() =>
-                          field.required &&
-                          setTouched((p) => ({ ...p, [field.key as RequiredField]: true }))
-                        }
-                        placeholder={field.placeholder}
-                        aria-invalid={showError || undefined}
-                        className={`w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30 ${
-                          field.mono ? "font-mono text-[13px]" : ""
-                        }`}
-                      />
-                    ) : (
-                      <input
-                        id={field.key}
-                        value={value}
-                        onChange={(e) => update(field.key, e.target.value)}
-                        onBlur={() =>
-                          field.required &&
-                          setTouched((p) => ({ ...p, [field.key as RequiredField]: true }))
-                        }
-                        placeholder={field.placeholder}
-                        aria-invalid={showError || undefined}
-                        className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                      />
-                    )}
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-[11px] text-destructive">{showError ? error : ""}</p>
-                      {field.multiline ? (
-                        <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground/70">
-                          {value.length} characters
-                        </span>
-                      ) : null}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    field={field}
+                    form={form}
+                    errors={errors}
+                    touched={touched}
+                    update={update}
+                    setTouched={setTouched}
+                  />
+                ))}
+              </div>
+            </SectionCard>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            {/* Environment section */}
+            <SectionCard
+              id="environment-section"
+              icon={TicketIcon}
+              title="Environment"
+              description="Who and what is affected."
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                {envFields.map((field) => (
+                  <FieldRenderer
+                    key={field.key}
+                    field={field}
+                    form={form}
+                    errors={errors}
+                    touched={touched}
+                    update={update}
+                    setTouched={setTouched}
+                  />
+                ))}
+              </div>
+            </SectionCard>
+
+            {/* Troubleshooting section */}
+            <SectionCard
+              id="troubleshooting-section"
+              icon={RefreshCw}
+              title="Troubleshooting"
+              description="Steps taken and commands used."
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                {troubleshootFields.map((field) => (
+                  <FieldRenderer
+                    key={field.key}
+                    field={field}
+                    form={form}
+                    errors={errors}
+                    touched={touched}
+                    update={update}
+                    setTouched={setTouched}
+                  />
+                ))}
+              </div>
+            </SectionCard>
+
+            {/* Resolution section */}
+            <SectionCard
+              id="resolution-section"
+              icon={CheckCircle2}
+              title="Resolution"
+              description="How the issue was resolved and any follow-up notes."
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                {resolutionFields.map((field) => (
+                  <FieldRenderer
+                    key={field.key}
+                    field={field}
+                    form={form}
+                    errors={errors}
+                    touched={touched}
+                    update={update}
+                    setTouched={setTouched}
+                  />
+                ))}
+              </div>
+            </SectionCard>
+
+            {/* Action buttons */}
+            <div className="flex flex-col gap-3 sm:flex-row">
               <button onClick={handleGenerate} disabled={!isValid} className={`${btnPrimary} flex-1`}>
                 Generate Documentation
               </button>
@@ -387,16 +532,15 @@ function Index() {
                 Clear Form
               </button>
             </div>
-          </section>
+          </div>
 
-          <section aria-label="Generated documentation" className="flex flex-col gap-6">
+          {/* Right: Generated documentation */}
+          <div id="documentation" className="flex flex-col gap-6">
             {!sections ? (
-              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 p-8 text-center">
-                <div
-                  className="mb-4 h-12 w-12 rounded-xl"
-                  style={{ backgroundImage: "var(--gradient-hero)" }}
-                  aria-hidden
-                />
+              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card/50 p-8 text-center">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+                  <FileText className="h-6 w-6" />
+                </div>
                 <h2 className="text-base font-semibold">No documentation yet</h2>
                 <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
                   Paste your notes into Quick Capture, or complete the ticket details and hit
@@ -405,15 +549,23 @@ function Index() {
               </div>
             ) : (
               <>
-                <div className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-xs text-muted-foreground">
                     {sections.length} sections generated — edit any section before copying.
                   </p>
                   <button
                     onClick={copyAll}
-                    className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                   >
-                    {copied === "__all__" ? "Copied all" : "Copy All Documentation"}
+                    {copied === "__all__" ? (
+                      <>
+                        <ClipboardCheck className="h-3.5 w-3.5" /> Copied all
+                      </>
+                    ) : (
+                      <>
+                        <Clipboard className="h-3.5 w-3.5" /> Copy All Documentation
+                      </>
+                    )}
                   </button>
                 </div>
                 {sections.map((section) => {
@@ -421,24 +573,33 @@ function Index() {
                   return (
                     <article
                       key={section.id}
-                      className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
+                      className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
                     >
                       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                        <h2 className="text-sm font-semibold tracking-tight">{section.title}</h2>
+                        <h3 className="text-sm font-semibold tracking-tight">{section.title}</h3>
                         <div className="flex gap-2">
                           <button
                             onClick={() =>
                               setEditing((prev) => ({ ...prev, [section.id]: !isEditing }))
                             }
-                            className={btnChip}
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
                           >
+                            <Pencil className="h-3 w-3" />
                             {isEditing ? "Done" : "Edit"}
                           </button>
                           <button
                             onClick={() => copyText(section.id, section.content, section.title)}
-                            className={btnChip}
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
                           >
-                            {copied === section.id ? "Copied" : "Copy"}
+                            {copied === section.id ? (
+                              <>
+                                <ClipboardCheck className="h-3 w-3" /> Copied
+                              </>
+                            ) : (
+                              <>
+                                <Clipboard className="h-3 w-3" /> Copy
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
@@ -448,7 +609,7 @@ function Index() {
                           onChange={(e) => editSection(section.id, e.target.value)}
                           rows={Math.min(24, section.content.split("\n").length + 2)}
                           aria-label={`${section.title} editor`}
-                          className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                          className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
                         />
                       ) : (
                         <pre className="w-full overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-border/60 bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground">
@@ -461,19 +622,38 @@ function Index() {
               </>
             )}
 
-            {kb ? (
-              <article className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]">
+            {/* Knowledge Base */}
+            {kb && (
+              <article
+                id="knowledge-base"
+                className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
+              >
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                  <h2 className="text-sm font-semibold tracking-tight">Knowledge Base</h2>
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-primary" />
+                    <h3 className="text-sm font-semibold tracking-tight">Knowledge Base</h3>
+                  </div>
                   <div className="flex gap-2">
-                    <button onClick={() => setKbEditing((v) => !v)} className={btnChip}>
+                    <button
+                      onClick={() => setKbEditing((v) => !v)}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                    >
+                      <Pencil className="h-3 w-3" />
                       {kbEditing ? "Done" : "Edit"}
                     </button>
                     <button
                       onClick={() => copyText("__kb__", kb.content, "Knowledge base article")}
-                      className="rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground transition hover:bg-primary/90"
                     >
-                      {copied === "__kb__" ? "Copied" : "Copy Knowledge Base"}
+                      {copied === "__kb__" ? (
+                        <>
+                          <ClipboardCheck className="h-3 w-3" /> Copied
+                        </>
+                      ) : (
+                        <>
+                          <Clipboard className="h-3 w-3" /> Copy
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -485,7 +665,7 @@ function Index() {
                     }
                     rows={Math.min(30, kb.content.split("\n").length + 2)}
                     aria-label="Knowledge Base editor"
-                    className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
+                    className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
                   />
                 ) : (
                   <pre className="w-full overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-border/60 bg-surface-elevated px-3 py-2.5 font-mono text-[13px] leading-relaxed text-foreground">
@@ -493,10 +673,10 @@ function Index() {
                   </pre>
                 )}
               </article>
-            ) : null}
-          </section>
+            )}
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
