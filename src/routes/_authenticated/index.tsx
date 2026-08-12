@@ -524,7 +524,7 @@ function Index() {
               <button
                 onClick={handleGenerateKb}
                 disabled={!isValid}
-                className={`${btnSecondary} flex-1`}
+                className={`${btnPrimary} flex-1`}
               >
                 Generate Knowledge Base
               </button>
@@ -555,7 +555,7 @@ function Index() {
                   </p>
                   <button
                     onClick={copyAll}
-                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                   >
                     {copied === "__all__" ? (
                       <>
@@ -643,7 +643,7 @@ function Index() {
                     </button>
                     <button
                       onClick={() => copyText("__kb__", kb.content, "Knowledge base article")}
-                      className="inline-flex items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground transition hover:bg-primary/90"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground transition hover:bg-muted"
                     >
                       {copied === "__kb__" ? (
                         <>
