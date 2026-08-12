@@ -418,7 +418,7 @@ function Index() {
                 id="issue-template"
                 value={templateId}
                 onChange={(e) => applyTemplate(e.target.value)}
-                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 pr-9 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
               >
                 {issueTemplates.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -629,8 +629,10 @@ function Index() {
                 className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
               >
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-primary" />
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+                      <BookOpen className="h-4 w-4" />
+                    </div>
                     <h3 className="text-sm font-semibold tracking-tight">Knowledge Base</h3>
                   </div>
                   <div className="flex gap-2">

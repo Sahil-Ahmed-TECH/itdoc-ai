@@ -49,8 +49,10 @@ export function QuickCapture({
       aria-label="Quick Capture"
       className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
     >
-      <div className="flex items-center gap-2">
-        <Sparkles className="h-4 w-4 text-primary" />
+      <div className="flex items-center gap-2.5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+          <Sparkles className="h-4 w-4" />
+        </div>
         <h2 className="text-base font-semibold tracking-tight">Quick Capture</h2>
       </div>
       <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
