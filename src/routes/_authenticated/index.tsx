@@ -418,7 +418,7 @@ function Index() {
                 id="issue-template"
                 value={templateId}
                 onChange={(e) => applyTemplate(e.target.value)}
-                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 pr-9 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 pr-12 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
               >
                 {issueTemplates.map((t) => (
                   <option key={t.id} value={t.id}>
