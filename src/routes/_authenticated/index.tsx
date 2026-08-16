@@ -9,7 +9,7 @@ import { QuickCapture } from "@/components/QuickCapture";
 import { analyzeNotes } from "@/lib/analyze-notes";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
-import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw } from "lucide-react";
+import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw, ChevronDown } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -414,18 +414,25 @@ function Index() {
                   </p>
                 </div>
               </div>
-              <select
-                id="issue-template"
-                value={templateId}
-                onChange={(e) => applyTemplate(e.target.value)}
-                className="w-full rounded-lg border border-input bg-surface-elevated px-3 py-2 pr-12 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
-              >
-                {issueTemplates.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+  <select
+    id="issue-template"
+    value={templateId}
+    onChange={(e) => applyTemplate(e.target.value)}
+    className="w-full appearance-none rounded-lg border border-input bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+  >
+    {issueTemplates.map((t) => (
+      <option key={t.id} value={t.id}>
+        {t.label}
+      </option>
+    ))}
+  </select>
+
+  <ChevronDown
+    className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+    aria-hidden="true"
+  />
+</div>
             </div>
 
             {/* Issue section */}
