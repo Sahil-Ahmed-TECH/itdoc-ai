@@ -288,7 +288,7 @@ function extractInlineCode(content: string): string[] {
   const inlineRegex = /`([^`]+)`/g;
   let match;
   while ((match = inlineRegex.exec(content)) !== null) {
-    snippets.push(match[1]);
+    if (match[1]) snippets.push(match[1]);
   }
   return snippets;
 }
