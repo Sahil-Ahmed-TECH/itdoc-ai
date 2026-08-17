@@ -323,6 +323,17 @@ function Index() {
     toast.success("Notes cleared");
   };
 
+  const handleCreateBat = () => {
+    if (!sections) return;
+    const batContent = buildBatFile(sections);
+    if (!batContent.trim()) {
+      toast.error("No executable Windows commands were found to create a .BAT file.");
+      return;
+    }
+    downloadBatFile(batContent, "ITDoc-AI-Resolution.bat");
+    toast.success("BAT file created successfully.");
+  };
+
   const handleGenerate = async () => {
     if (!isValid) return;
     setSections(await documentationService.generate(form));
