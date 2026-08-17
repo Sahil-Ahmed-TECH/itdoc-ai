@@ -9,7 +9,7 @@ import { QuickCapture } from "@/components/QuickCapture";
 import { analyzeNotes } from "@/lib/analyze-notes";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
-import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw, ChevronDown } from "lucide-react";
+import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw, ChevronDown, FileDown } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
