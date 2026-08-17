@@ -1,11 +1,8 @@
 import type { GeneratedSection } from "./generate-docs";
 
 const RELEVANT_SECTION_IDS = [
-  "ticket-description",
   "troubleshooting-performed",
   "resolution",
-  "internal-notes",
-  "kb-draft",
 ];
 
 const KNOWN_COMMANDS = new Set([
@@ -278,7 +275,7 @@ function extractCodeBlocks(content: string): string[] {
   const fenceRegex = /```[\w]*\n([\s\S]*?)```/g;
   let match;
   while ((match = fenceRegex.exec(content)) !== null) {
-    blocks.push(match[1]);
+    if (match[1]) blocks.push(match[1]);
   }
   return blocks;
 }
@@ -288,7 +285,7 @@ function extractInlineCode(content: string): string[] {
   const inlineRegex = /`([^`]+)`/g;
   let match;
   while ((match = inlineRegex.exec(content)) !== null) {
-    snippets.push(match[1]);
+    if (match[1]) snippets.push(match[1]);
   }
   return snippets;
 }

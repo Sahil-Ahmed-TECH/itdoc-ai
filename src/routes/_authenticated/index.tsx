@@ -9,7 +9,8 @@ import { QuickCapture } from "@/components/QuickCapture";
 import { analyzeNotes } from "@/lib/analyze-notes";
 import { blankTemplateId, getIssueTemplate, issueTemplates } from "@/lib/issue-templates";
 import { generateKnowledgeBase, type KbArticle } from "@/lib/generate-kb";
-import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw, ChevronDown } from "lucide-react";
+import { buildBatFile, downloadBatFile } from "@/lib/bat-export";
+import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clipboard, ClipboardCheck, FileText, Pencil, BookOpen, Ticket as TicketIcon, Settings, RefreshCw, ChevronDown, FileDown } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
@@ -322,6 +323,17 @@ function Index() {
     toast.success("Notes cleared");
   };
 
+  const handleCreateBat = () => {
+    if (!sections) return;
+    const batContent = buildBatFile(sections);
+    if (!batContent.trim()) {
+      toast.error("No executable Windows commands were found to create a .BAT file.");
+      return;
+    }
+    downloadBatFile(batContent, "ITDoc-AI-Resolution.bat");
+    toast.success("BAT file created successfully.");
+  };
+
   const handleGenerate = async () => {
     if (!isValid) return;
     setSections(await documentationService.generate(form));
@@ -560,20 +572,28 @@ function Index() {
                   <p className="text-xs text-muted-foreground">
                     {sections.length} sections generated — edit any section before copying.
                   </p>
-                  <button
-                    onClick={copyAll}
-                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                  >
-                    {copied === "__all__" ? (
-                      <>
-                        <ClipboardCheck className="h-3.5 w-3.5" /> Copied all
-                      </>
-                    ) : (
-                      <>
-                        <Clipboard className="h-3.5 w-3.5" /> Copy All Documentation
-                      </>
-                    )}
-                  </button>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <button
+                      onClick={handleCreateBat}
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                    >
+                      <FileDown className="h-3.5 w-3.5" /> Create .BAT File
+                    </button>
+                    <button
+                      onClick={copyAll}
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                    >
+                      {copied === "__all__" ? (
+                        <>
+                          <ClipboardCheck className="h-3.5 w-3.5" /> Copied all
+                        </>
+                      ) : (
+                        <>
+                          <Clipboard className="h-3.5 w-3.5" /> Copy All Documentation
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
                 {sections.map((section) => {
                   const isEditing = !!editing[section.id];
