@@ -1,11 +1,8 @@
 import type { GeneratedSection } from "./generate-docs";
 
 const RELEVANT_SECTION_IDS = [
-  "ticket-description",
   "troubleshooting-performed",
   "resolution",
-  "internal-notes",
-  "kb-draft",
 ];
 
 const KNOWN_COMMANDS = new Set([
