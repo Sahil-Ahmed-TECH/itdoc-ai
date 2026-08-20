@@ -539,7 +539,7 @@ function Index() {
             </SectionCard>
 
             {/* Action buttons */}
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
               <button onClick={handleGenerate} disabled={!isValid} className={`${btnPrimary} flex-1`}>
                 Generate Documentation
               </button>
