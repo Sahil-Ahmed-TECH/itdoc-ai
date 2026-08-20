@@ -47,7 +47,7 @@ export function QuickCapture({
   return (
     <section
       aria-label="Quick Capture"
-      className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
+      className="rounded-xl border border-border/80 bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
     >
       <div className="flex items-center gap-2.5">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
