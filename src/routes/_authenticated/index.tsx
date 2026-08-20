@@ -387,12 +387,15 @@ function Index() {
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         {/* Page header */}
         <div className="mb-6 flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Dashboard</h1>
-            <span className="rounded-full border border-border bg-surface-elevated px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-              IT Service Desk
-            </span>
-          </div>
+          <div className="flex items-center gap-2.5">
+  <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
+    Dashboard
+  </h1>
+
+  <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
+    IT Service Desk
+  </span>
+</div>
           <p className="text-sm text-muted-foreground">
             Capture raw notes, generate professional documentation, and build your knowledge base.
           </p>
