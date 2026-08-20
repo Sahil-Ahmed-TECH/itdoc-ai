@@ -22,15 +22,20 @@ const navItems = [
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
-      <div className="flex items-center gap-2.5 px-5 py-5 border-b border-sidebar-border">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Zap className="h-5 w-5" />
-        </div>
-        <div className="min-w-0">
-          <p className="text-sm font-semibold tracking-tight">ITDoc AI</p>
-          <p className="text-[11px] text-sidebar-foreground/60">IT Documentation Toolkit</p>
-        </div>
-      </div>
+      <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-4">
+  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/10 text-primary">
+    <Zap className="h-5 w-5" />
+  </div>
+
+  <div className="min-w-0">
+    <p className="text-sm font-semibold tracking-tight text-sidebar-foreground">
+      ITDoc AI
+    </p>
+    <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-sidebar-foreground/40">
+      IT Documentation Toolkit
+    </p>
+  </div>
+</div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <p className="px-2 pb-2 text-[11px] font-medium uppercase tracking-wider text-sidebar-foreground/40">
