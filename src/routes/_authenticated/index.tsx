@@ -417,7 +417,7 @@ function Index() {
           {/* Left: Ticket details form */}
           <div id="ticket-details" className="flex flex-col gap-6">
             {/* Template selector */}
-            <div className="rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-panel)]">
+            <div className="rounded-xl border border-border/80 bg-card p-6 shadow-[var(--shadow-panel)]">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                   <Settings className="h-4 w-4" />
