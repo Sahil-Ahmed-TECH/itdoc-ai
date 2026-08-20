@@ -67,9 +67,9 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   </ul>
 </nav>
 
-      <div className="border-t border-sidebar-border px-3 py-3">
-        <UserMenu />
-      </div>
+      <div className="border-t border-sidebar-border/70 px-3 py-3.5">
+  <UserMenu />
+</div>
     </div>
   );
 }
