@@ -402,7 +402,7 @@ function Index() {
         </div>
 
         {/* Quick Capture */}
-        <div id="quick-capture" className="mb-6">
+        <div id="quick-capture" className="mb-8">
           <QuickCapture
             value={rawNotes}
             onChange={setRawNotes}
@@ -413,7 +413,7 @@ function Index() {
         </div>
 
         {/* Two-column layout */}
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+        <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
           {/* Left: Ticket details form */}
           <div id="ticket-details" className="flex flex-col gap-6">
             {/* Template selector */}
