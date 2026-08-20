@@ -434,7 +434,7 @@ function Index() {
     id="issue-template"
     value={templateId}
     onChange={(e) => applyTemplate(e.target.value)}
-    className="w-full appearance-none rounded-lg border border-input bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+    className="w-full appearance-none rounded-lg border border-input/80 bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
   >
     {issueTemplates.map((t) => (
       <option key={t.id} value={t.id}>
@@ -444,9 +444,9 @@ function Index() {
   </select>
 
   <ChevronDown
-    className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-    aria-hidden="true"
-  />
+  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 opacity-70 -translate-y-1/2 text-muted-foreground"
+  aria-hidden="true"
+/>
 </div>
             </div>
 
