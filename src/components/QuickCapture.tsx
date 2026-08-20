@@ -73,7 +73,7 @@ export function QuickCapture({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={PLACEHOLDER}
-          className="w-full resize-y rounded-lg border border-input bg-surface-elevated px-3 py-2.5 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+          className="w-full resize-y rounded-lg border border-input/80 bg-surface-elevated px-3 py-2.5 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground/60 outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
         />
         <span className="self-end text-[11px] tabular-nums text-muted-foreground/70">
           {value.length} characters
