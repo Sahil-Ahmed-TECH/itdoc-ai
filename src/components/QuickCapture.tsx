@@ -92,7 +92,7 @@ export function QuickCapture({
         </div>
       )}
 
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
         <button
           onClick={onAnalyze}
           disabled={isAnalyzing}
