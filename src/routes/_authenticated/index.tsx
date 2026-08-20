@@ -571,7 +571,7 @@ function Index() {
               </div>
             ) : (
               <>
-                <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 rounded-xl border border-border/80 bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-xs text-muted-foreground">
                     {sections.length} sections generated — edit any section before copying.
                   </p>
