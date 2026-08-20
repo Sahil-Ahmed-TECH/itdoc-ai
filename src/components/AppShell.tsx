@@ -20,6 +20,8 @@ const navItems = [
 ];
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+  const [activeSection, setActiveSection] = useState("#top");
+
   return (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-4">
@@ -47,8 +49,15 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       <li key={item.label}>
         <a
           href={item.href}
-          onClick={onNavigate}
-          className="group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-sidebar-foreground/70 transition-all duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          onClick={() => {
+  setActiveSection(item.href);
+  onNavigate?.();
+}}
+          className={`group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
+  activeSection === item.href
+    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+    : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+}`}
         >
           <item.icon className="h-4 w-4 shrink-0 transition-transform duration-150 group-hover:scale-105" />
           <span>{item.label}</span>
