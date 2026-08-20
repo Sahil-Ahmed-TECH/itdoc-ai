@@ -396,9 +396,9 @@ function Index() {
     IT Service Desk
   </span>
 </div>
-          <p className="text-sm text-muted-foreground">
-            Capture raw notes, generate professional documentation, and build your knowledge base.
-          </p>
+          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground/80">
+  Capture raw notes, generate professional documentation, and build your knowledge base.
+</p>
         </div>
 
         {/* Quick Capture */}
