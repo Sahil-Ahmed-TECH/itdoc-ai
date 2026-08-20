@@ -19,9 +19,15 @@ const navItems = [
   { label: "Knowledge Base", icon: BookOpen, href: "#knowledge-base" },
 ];
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
-  const [activeSection, setActiveSection] = useState("#top");
-
+function SidebarContent({
+  onNavigate,
+  activeSection,
+  setActiveSection,
+}: {
+  onNavigate?: () => void;
+  activeSection: string;
+  setActiveSection: (section: string) => void;
+}) {
   return (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-4">
@@ -76,12 +82,16 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("#top");
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <aside className="hidden w-80 shrink-0 lg:block">
-        <SidebarContent />
-      </aside>
+  <SidebarContent
+    activeSection={activeSection}
+    setActiveSection={setActiveSection}
+  />
+</aside>
 
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 lg:hidden">
@@ -107,8 +117,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="w-[320px] p-0">
-          <SidebarContent onNavigate={() => setMobileOpen(false)} />
-        </SheetContent>
+  <SidebarContent
+    onNavigate={() => setMobileOpen(false)}
+    activeSection={activeSection}
+    setActiveSection={setActiveSection}
+  />
+</SheetContent>
       </Sheet>
     </div>
   );
