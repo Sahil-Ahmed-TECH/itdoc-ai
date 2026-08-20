@@ -104,10 +104,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Zap className="h-4 w-4" />
-            </div>
-            <span className="text-sm font-semibold">ITDoc AI</span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-primary/40 bg-primary/10 text-primary">
+  <Zap className="h-4 w-4" />
+</div>
+            <span className="text-sm font-semibold tracking-tight text-foreground">
+  ITDoc AI
+</span>
           </div>
           <div className="w-9" />
         </header>
