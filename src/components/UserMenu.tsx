@@ -58,14 +58,14 @@ export function UserMenu() {
   </div>
 </div>
       <button
-        type="button"
-        onClick={handleSignOut}
-        disabled={signingOut}
-        className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground disabled:opacity-60"
-      >
-        <LogOut className="h-4 w-4 shrink-0" />
-        {signingOut ? "Signing out…" : "Sign out"}
-      </button>
+  type="button"
+  onClick={handleSignOut}
+  disabled={signingOut}
+  className="flex w-full items-center gap-2.5 rounded-xl border border-transparent px-3 py-2.5 text-sm font-medium text-sidebar-foreground/60 transition-all hover:border-sidebar-border/60 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground disabled:cursor-not-allowed disabled:opacity-60"
+>
+  <LogOut className="h-4 w-4 shrink-0" />
+  <span>{signingOut ? "Signing out…" : "Sign out"}</span>
+</button>
     </div>
   );
 }
