@@ -38,24 +38,25 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <p className="px-2 pb-2 text-[11px] font-medium uppercase tracking-wider text-sidebar-foreground/40">
-          Workspace
-        </p>
-        <ul className="flex flex-col gap-0.5">
-          {navItems.map((item) => (
-            <li key={item.label}>
-              <a
-                href={item.href}
-                onClick={onNavigate}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
-                <item.icon className="h-4 w-4 shrink-0" />
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+  <p className="px-2 pb-2 text-[11px] font-medium uppercase tracking-[0.12em] text-sidebar-foreground/40">
+    Workspace
+  </p>
+
+  <ul className="flex flex-col gap-1">
+    {navItems.map((item) => (
+      <li key={item.label}>
+        <a
+          href={item.href}
+          onClick={onNavigate}
+          className="group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-sidebar-foreground/70 transition-all duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        >
+          <item.icon className="h-4 w-4 shrink-0 transition-transform duration-150 group-hover:scale-105" />
+          <span>{item.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
 
       <div className="border-t border-sidebar-border px-3 py-3">
         <UserMenu />
