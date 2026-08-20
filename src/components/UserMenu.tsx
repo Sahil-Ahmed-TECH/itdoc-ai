@@ -44,7 +44,7 @@ export function UserMenu() {
   <div className="min-w-0 flex-1">
     <p
       title={email ?? "Signed in"}
-      className="truncate whitespace-nowrap text-xs font-semibold text-sidebar-foreground"
+      className="break-all text-xs font-semibold text-sidebar-foreground"
     >
       {email ?? "Signed in"}
     </p>
