@@ -114,7 +114,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="w-9" />
         </header>
 
-        <main className="relative flex-1 overflow-y-auto bg-background">
+        <main className="relative flex-1 overflow-y-auto">
   <div
     aria-hidden="true"
     className="pointer-events-none absolute inset-0 opacity-[0.08] text-foreground"
