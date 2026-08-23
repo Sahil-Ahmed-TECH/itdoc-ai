@@ -153,7 +153,11 @@ function RootComponent() {
         {/* Ambient system glow */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute -left-[24%] top-[2%] h-[680px] w-[680px] rounded-full bg-primary/[0.035] blur-3xl"
+  className="pointer-events-none absolute
+    left-[12%] top-[8%] h-[420px] w-[420px]
+    rounded-full bg-primary/[0.035] blur-3xl
+    md:left-[8%] md:top-[6%] md:h-[500px] md:w-[500px]
+    lg:left-[4%] lg:top-[2%] lg:h-[620px] lg:w-[620px]"
   style={{
     maskImage:
       "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
@@ -164,7 +168,11 @@ function RootComponent() {
         {/* Secondary ambient system glow */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute -right-[18%] bottom-[4%] h-[500px] w-[500px] rounded-full bg-primary/[0.018] blur-3xl"
+  className="pointer-events-none absolute
+    right-[8%] bottom-[12%] h-[300px] w-[300px]
+    rounded-full bg-primary/[0.018] blur-3xl
+    md:right-[6%] md:bottom-[8%] md:h-[380px] md:w-[380px]
+    lg:right-[4%] lg:bottom-[4%] lg:h-[460px] lg:w-[460px]"
   style={{
     maskImage:
       "radial-gradient(circle, black 0%, black 40%, transparent 72%)",
