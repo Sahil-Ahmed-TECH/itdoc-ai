@@ -153,12 +153,10 @@ function RootComponent() {
         {/* Ambient system glow */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.045] blur-3xl"
+  className="pointer-events-none absolute inset-0"
   style={{
-    maskImage:
-      "radial-gradient(circle, black 0%, black 42%, transparent 72%)",
-    WebkitMaskImage:
-      "radial-gradient(circle, black 0%, black 42%, transparent 72%)",
+    backgroundImage:
+      "radial-gradient(ellipse at 15% 18%, oklch(0.45 0.15 150 / 0.035), transparent 42%), radial-gradient(ellipse at 85% 82%, oklch(0.45 0.15 150 / 0.025), transparent 38%), radial-gradient(ellipse at 50% 50%, oklch(0.45 0.15 150 / 0.018), transparent 58%)",
   }}
 />
         {/* Global technical background layer */}
