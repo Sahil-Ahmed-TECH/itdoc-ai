@@ -161,6 +161,17 @@ function RootComponent() {
       "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
   }}
 />
+        {/* Secondary ambient system glow */}
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute -right-[12%] bottom-[10%] h-[360px] w-[360px] rounded-full bg-primary/[0.025] blur-3xl"
+  style={{
+    maskImage:
+      "radial-gradient(circle, black 0%, black 40%, transparent 72%)",
+    WebkitMaskImage:
+      "radial-gradient(circle, black 0%, black 40%, transparent 72%)",
+  }}
+/>
         {/* Global technical background layer */}
         <div
           aria-hidden="true"
