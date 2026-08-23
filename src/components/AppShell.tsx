@@ -117,11 +117,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <main className="relative flex-1 overflow-y-auto bg-background">
   <div
     aria-hidden="true"
-    className="pointer-events-none absolute inset-0 opacity-[0.035]"
+    className="pointer-events-none absolute inset-0 opacity-[0.08] text-foreground"
     style={{
       backgroundImage:
         "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-      backgroundSize: "40px 40px",
+      backgroundSize: "32px 32px",
     }}
   />
   <div className="relative">{children}</div>
