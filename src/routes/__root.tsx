@@ -152,40 +152,59 @@ function RootComponent() {
 
   {/* Network topology */}
   <svg
-    className="absolute inset-0 h-full w-full opacity-[0.10]"
+    className="absolute inset-0 h-full w-full opacity-[0.08]"
     viewBox="0 0 1600 900"
     preserveAspectRatio="none"
   >
     <g
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1"
-      className="text-primary"
-    >
-      <path d="M120 180 L360 120 L570 250 L820 170 L1060 300 L1320 180" />
-      <path d="M360 120 L420 380 L650 470 L820 170" />
-      <path d="M570 250 L650 470 L930 520 L1060 300" />
-      <path d="M820 170 L930 520 L1180 650 L1420 480" />
-      <path d="M650 470 L500 700 L780 760 L1180 650" />
-      <path d="M1060 300 L1240 400 L1420 480" />
-    </g>
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="1"
+  className="text-primary"
+  strokeLinecap="round"
+>
+  {/* Primary network paths */}
+  <path d="M210 230 L430 150 L650 280 L860 190 L1080 340" />
+  <path d="M430 150 L470 390 L650 280" />
+  <path d="M650 280 L760 500 L1080 340" />
 
-    <g className="fill-primary">
-      <circle cx="120" cy="180" r="3" />
-      <circle cx="360" cy="120" r="3" />
-      <circle cx="570" cy="250" r="3" />
-      <circle cx="820" cy="170" r="3" />
-      <circle cx="1060" cy="300" r="3" />
-      <circle cx="1320" cy="180" r="3" />
-      <circle cx="420" cy="380" r="2.5" />
-      <circle cx="650" cy="470" r="3" />
-      <circle cx="930" cy="520" r="2.5" />
-      <circle cx="1180" cy="650" r="3" />
-      <circle cx="1420" cy="480" r="3" />
-      <circle cx="500" cy="700" r="2.5" />
-      <circle cx="780" cy="760" r="3" />
-      <circle cx="1240" cy="400" r="2.5" />
-    </g>
+  {/* Secondary network paths */}
+  <path d="M470 390 L620 600 L850 560 L1080 340" />
+  <path d="M760 500 L850 560 L1050 700" />
+  <path d="M850 560 L1180 610 L1380 470" />
+  <path d="M1080 340 L1210 390 L1380 470" />
+
+  {/* Peripheral connections */}
+  <path d="M210 230 L120 360" />
+  <path d="M620 600 L500 760" />
+  <path d="M1050 700 L1210 760" />
+  <path d="M1380 470 L1490 330" />
+</g>
+
+<g className="fill-primary">
+  {/* Primary nodes */}
+  <circle cx="430" cy="150" r="3.5" />
+  <circle cx="650" cy="280" r="3" />
+  <circle cx="860" cy="190" r="3.5" />
+  <circle cx="1080" cy="340" r="3" />
+
+  {/* Secondary nodes */}
+  <circle cx="470" cy="390" r="2.5" />
+  <circle cx="760" cy="500" r="2.5" />
+  <circle cx="850" cy="560" r="3" />
+  <circle cx="1180" cy="610" r="2.5" />
+  <circle cx="1210" cy="390" r="2.5" />
+
+  {/* Peripheral nodes */}
+  <circle cx="210" cy="230" r="2.5" />
+  <circle cx="120" cy="360" r="2" />
+  <circle cx="620" cy="600" r="2.5" />
+  <circle cx="500" cy="760" r="2" />
+  <circle cx="1050" cy="700" r="2.5" />
+  <circle cx="1210" cy="760" r="2" />
+  <circle cx="1380" cy="470" r="2.5" />
+  <circle cx="1490" cy="330" r="2" />
+</g>
   </svg>
 </div>
 
