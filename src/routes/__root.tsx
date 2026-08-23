@@ -134,17 +134,60 @@ function RootComponent() {
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <div
   aria-hidden="true"
-  className="pointer-events-none absolute inset-0 text-foreground opacity-[0.05]"
-  style={{
-    backgroundImage:
-      "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-    backgroundSize: "32px 32px",
-    maskImage:
-      "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
-    WebkitMaskImage:
-      "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
-  }}
-/>
+  className="pointer-events-none absolute inset-0 overflow-hidden"
+>
+  {/* Technical grid */}
+  <div
+    className="absolute inset-0 text-foreground opacity-[0.05]"
+    style={{
+      backgroundImage:
+        "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+      backgroundSize: "32px 32px",
+      maskImage:
+        "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
+      WebkitMaskImage:
+        "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
+    }}
+  />
+
+  {/* Network topology */}
+  <svg
+    className="absolute inset-0 h-full w-full opacity-[0.10]"
+    viewBox="0 0 1600 900"
+    preserveAspectRatio="none"
+  >
+    <g
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      className="text-primary"
+    >
+      <path d="M120 180 L360 120 L570 250 L820 170 L1060 300 L1320 180" />
+      <path d="M360 120 L420 380 L650 470 L820 170" />
+      <path d="M570 250 L650 470 L930 520 L1060 300" />
+      <path d="M820 170 L930 520 L1180 650 L1420 480" />
+      <path d="M650 470 L500 700 L780 760 L1180 650" />
+      <path d="M1060 300 L1240 400 L1420 480" />
+    </g>
+
+    <g className="fill-primary">
+      <circle cx="120" cy="180" r="3" />
+      <circle cx="360" cy="120" r="3" />
+      <circle cx="570" cy="250" r="3" />
+      <circle cx="820" cy="170" r="3" />
+      <circle cx="1060" cy="300" r="3" />
+      <circle cx="1320" cy="180" r="3" />
+      <circle cx="420" cy="380" r="2.5" />
+      <circle cx="650" cy="470" r="3" />
+      <circle cx="930" cy="520" r="2.5" />
+      <circle cx="1180" cy="650" r="3" />
+      <circle cx="1420" cy="480" r="3" />
+      <circle cx="500" cy="700" r="2.5" />
+      <circle cx="780" cy="760" r="3" />
+      <circle cx="1240" cy="400" r="2.5" />
+    </g>
+  </svg>
+</div>
 
       <div className="relative">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
