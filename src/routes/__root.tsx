@@ -153,58 +153,58 @@ function RootComponent() {
   {/* Network topology */}
   <svg
   className="absolute inset-0 h-full w-full opacity-[0.08]"
-  viewBox="0 0 1600 900"
+  viewBox="0 0 50 28"
   preserveAspectRatio="none"
   aria-hidden="true"
 >
   <g
     fill="none"
     stroke="currentColor"
-    strokeWidth="1"
+    strokeWidth="0.08"
     className="text-primary"
     strokeLinecap="round"
   >
     {/* Primary network paths */}
-    <path d="M224 224 L416 160 L640 288 L864 192 L1088 320" />
-    <path d="M416 160 L480 384 L640 288" />
-    <path d="M640 288 L768 480 L1088 320" />
+    <path d="M7 7 L13 5 L20 9 L27 6 L34 10" />
+    <path d="M13 5 L15 12 L20 9" />
+    <path d="M20 9 L24 15 L34 10" />
 
     {/* Secondary network paths */}
-    <path d="M480 384 L608 608 L832 544 L1088 320" />
-    <path d="M768 480 L832 544 L1056 704" />
-    <path d="M832 544 L1184 608 L1376 480" />
-    <path d="M1088 320 L1216 384 L1376 480" />
+    <path d="M15 12 L19 19 L26 17 L34 10" />
+    <path d="M24 15 L26 17 L33 22" />
+    <path d="M26 17 L37 19 L43 15" />
+    <path d="M34 10 L38 12 L43 15" />
 
     {/* Peripheral connections */}
-    <path d="M224 224 L128 352" />
-    <path d="M608 608 L512 768" />
-    <path d="M1056 704 L1216 768" />
-    <path d="M1376 480 L1504 320" />
+    <path d="M7 7 L4 11" />
+    <path d="M19 19 L16 24" />
+    <path d="M33 22 L38 24" />
+    <path d="M43 15 L47 10" />
   </g>
 
   <g className="fill-primary">
     {/* Primary nodes */}
-    <circle cx="416" cy="160" r="3" />
-    <circle cx="640" cy="288" r="3" />
-    <circle cx="864" cy="192" r="3" />
-    <circle cx="1088" cy="320" r="3" />
+    <circle cx="13" cy="5" r="0.12" />
+    <circle cx="20" cy="9" r="0.12" />
+    <circle cx="27" cy="6" r="0.12" />
+    <circle cx="34" cy="10" r="0.12" />
 
     {/* Secondary nodes */}
-    <circle cx="480" cy="384" r="2.5" />
-    <circle cx="768" cy="480" r="2.5" />
-    <circle cx="832" cy="544" r="3" />
-    <circle cx="1184" cy="608" r="2.5" />
-    <circle cx="1216" cy="384" r="2.5" />
+    <circle cx="15" cy="12" r="0.1" />
+    <circle cx="24" cy="15" r="0.1" />
+    <circle cx="26" cy="17" r="0.12" />
+    <circle cx="37" cy="19" r="0.1" />
+    <circle cx="38" cy="12" r="0.1" />
 
     {/* Peripheral nodes */}
-    <circle cx="224" cy="224" r="2.5" />
-    <circle cx="128" cy="352" r="2" />
-    <circle cx="608" cy="608" r="2.5" />
-    <circle cx="512" cy="768" r="2" />
-    <circle cx="1056" cy="704" r="2.5" />
-    <circle cx="1216" cy="768" r="2" />
-    <circle cx="1376" cy="480" r="2.5" />
-    <circle cx="1504" cy="320" r="2" />
+    <circle cx="7" cy="7" r="0.1" />
+    <circle cx="4" cy="11" r="0.08" />
+    <circle cx="19" cy="19" r="0.1" />
+    <circle cx="16" cy="24" r="0.08" />
+    <circle cx="33" cy="22" r="0.1" />
+    <circle cx="38" cy="24" r="0.08" />
+    <circle cx="43" cy="15" r="0.1" />
+    <circle cx="47" cy="10" r="0.08" />
   </g>
 </svg>
 </div>
