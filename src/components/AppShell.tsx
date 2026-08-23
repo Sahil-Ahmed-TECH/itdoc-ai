@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      <aside className="hidden w-80 shrink-0 lg:block">
+      <aside className="hidden w-80 shrink-0 border-r border-sidebar-border lg:block">
   <SidebarContent
     activeSection={activeSection}
     setActiveSection={setActiveSection}
