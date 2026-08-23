@@ -152,60 +152,60 @@ function RootComponent() {
 
   {/* Network topology */}
   <svg
-    className="absolute inset-0 h-full w-full opacity-[0.08]"
-    viewBox="0 0 1600 900"
-    preserveAspectRatio="none"
-  >
-    <g
-  fill="none"
-  stroke="currentColor"
-  strokeWidth="1"
-  className="text-primary"
-  strokeLinecap="round"
+  className="absolute inset-0 h-full w-full opacity-[0.08]"
+  viewBox="0 0 1600 900"
+  preserveAspectRatio="none"
 >
-  {/* Primary network paths */}
-  <path d="M210 230 L430 150 L650 280 L860 190 L1080 340" />
-  <path d="M430 150 L470 390 L650 280" />
-  <path d="M650 280 L760 500 L1080 340" />
+  <g
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1"
+    className="text-primary"
+    strokeLinecap="round"
+  >
+    {/* Primary network paths */}
+    <path d="M224 224 L416 160 L640 288 L864 192 L1088 320" />
+    <path d="M416 160 L480 384 L640 288" />
+    <path d="M640 288 L768 480 L1088 320" />
 
-  {/* Secondary network paths */}
-  <path d="M470 390 L620 600 L850 560 L1080 340" />
-  <path d="M760 500 L850 560 L1050 700" />
-  <path d="M850 560 L1180 610 L1380 470" />
-  <path d="M1080 340 L1210 390 L1380 470" />
+    {/* Secondary network paths */}
+    <path d="M480 384 L608 608 L832 544 L1088 320" />
+    <path d="M768 480 L832 544 L1056 704" />
+    <path d="M832 544 L1184 608 L1376 480" />
+    <path d="M1088 320 L1216 384 L1376 480" />
 
-  {/* Peripheral connections */}
-  <path d="M210 230 L120 360" />
-  <path d="M620 600 L500 760" />
-  <path d="M1050 700 L1210 760" />
-  <path d="M1380 470 L1490 330" />
-</g>
+    {/* Peripheral connections */}
+    <path d="M224 224 L128 352" />
+    <path d="M608 608 L512 768" />
+    <path d="M1056 704 L1216 768" />
+    <path d="M1376 480 L1504 320" />
+  </g>
 
-<g className="fill-primary">
-  {/* Primary nodes */}
-  <circle cx="430" cy="150" r="3.5" />
-  <circle cx="650" cy="280" r="3" />
-  <circle cx="860" cy="190" r="3.5" />
-  <circle cx="1080" cy="340" r="3" />
+  <g className="fill-primary">
+    {/* Primary nodes */}
+    <circle cx="416" cy="160" r="3" />
+    <circle cx="640" cy="288" r="3" />
+    <circle cx="864" cy="192" r="3" />
+    <circle cx="1088" cy="320" r="3" />
 
-  {/* Secondary nodes */}
-  <circle cx="470" cy="390" r="2.5" />
-  <circle cx="760" cy="500" r="2.5" />
-  <circle cx="850" cy="560" r="3" />
-  <circle cx="1180" cy="610" r="2.5" />
-  <circle cx="1210" cy="390" r="2.5" />
+    {/* Secondary nodes */}
+    <circle cx="480" cy="384" r="2.5" />
+    <circle cx="768" cy="480" r="2.5" />
+    <circle cx="832" cy="544" r="3" />
+    <circle cx="1184" cy="608" r="2.5" />
+    <circle cx="1216" cy="384" r="2.5" />
 
-  {/* Peripheral nodes */}
-  <circle cx="210" cy="230" r="2.5" />
-  <circle cx="120" cy="360" r="2" />
-  <circle cx="620" cy="600" r="2.5" />
-  <circle cx="500" cy="760" r="2" />
-  <circle cx="1050" cy="700" r="2.5" />
-  <circle cx="1210" cy="760" r="2" />
-  <circle cx="1380" cy="470" r="2.5" />
-  <circle cx="1490" cy="330" r="2" />
-</g>
-  </svg>
+    {/* Peripheral nodes */}
+    <circle cx="224" cy="224" r="2.5" />
+    <circle cx="128" cy="352" r="2" />
+    <circle cx="608" cy="608" r="2.5" />
+    <circle cx="512" cy="768" r="2" />
+    <circle cx="1056" cy="704" r="2.5" />
+    <circle cx="1216" cy="768" r="2" />
+    <circle cx="1376" cy="480" r="2.5" />
+    <circle cx="1504" cy="320" r="2" />
+  </g>
+</svg>
 </div>
 
       <div className="relative">
