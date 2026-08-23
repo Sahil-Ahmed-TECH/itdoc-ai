@@ -85,7 +85,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [activeSection, setActiveSection] = useState("#top");
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden">
       <aside className="hidden w-80 shrink-0 border-r border-sidebar-border lg:block">
   <SidebarContent
     activeSection={activeSection}
