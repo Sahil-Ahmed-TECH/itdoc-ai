@@ -150,7 +150,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-        {/* Technical grid */}
+        {/* Global technical background layer */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 text-foreground opacity-[0.05]"
