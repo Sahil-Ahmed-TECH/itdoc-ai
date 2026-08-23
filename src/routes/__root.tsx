@@ -168,7 +168,7 @@ function RootComponent() {
         {/* Network topology */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 overflow-hidden text-primary opacity-[0.08]"
+          className="pointer-events-none absolute inset-0 overflow-hidden text-primary opacity-[0.15]"
           style={topologyStyle}
         >
           {/* Desktop topology */}
