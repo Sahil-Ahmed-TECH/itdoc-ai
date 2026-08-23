@@ -153,31 +153,12 @@ function RootComponent() {
         {/* Ambient system glow */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute
-    left-[12%] top-[8%] h-[420px] w-[420px]
-    rounded-full bg-primary/[0.035] blur-3xl
-    md:left-[8%] md:top-[6%] md:h-[500px] md:w-[500px]
-    lg:left-[4%] lg:top-[2%] lg:h-[620px] lg:w-[620px]"
+  className="pointer-events-none absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.045] blur-3xl"
   style={{
     maskImage:
-      "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
+      "radial-gradient(circle, black 0%, black 42%, transparent 72%)",
     WebkitMaskImage:
-      "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
-  }}
-/>
-        {/* Secondary ambient system glow */}
-<div
-  aria-hidden="true"
-  className="pointer-events-none absolute
-    right-[8%] bottom-[12%] h-[300px] w-[300px]
-    rounded-full bg-primary/[0.018] blur-3xl
-    md:right-[6%] md:bottom-[8%] md:h-[380px] md:w-[380px]
-    lg:right-[4%] lg:bottom-[4%] lg:h-[460px] lg:w-[460px]"
-  style={{
-    maskImage:
-      "radial-gradient(circle, black 0%, black 40%, transparent 72%)",
-    WebkitMaskImage:
-      "radial-gradient(circle, black 0%, black 40%, transparent 72%)",
+      "radial-gradient(circle, black 0%, black 42%, transparent 72%)",
   }}
 />
         {/* Global technical background layer */}
