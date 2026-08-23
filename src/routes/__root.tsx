@@ -130,10 +130,25 @@ function RootComponent() {
   }, [router, queryClient]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Toaster position="top-right" theme="dark" />
-    </QueryClientProvider>
-  );
+  <QueryClientProvider client={queryClient}>
+    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 text-foreground opacity-[0.08]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+
+      <div className="relative">
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </div>
+    </div>
+
+    <Toaster position="top-right" theme="dark" />
+  </QueryClientProvider>
+);
 }
