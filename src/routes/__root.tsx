@@ -133,14 +133,18 @@ function RootComponent() {
   <QueryClientProvider client={queryClient}>
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 text-foreground opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 text-foreground opacity-[0.08]"
+  style={{
+    backgroundImage:
+      "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+    backgroundSize: "32px 32px",
+    maskImage:
+      "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
+    WebkitMaskImage:
+      "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
+  }}
+/>
 
       <div className="relative">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
