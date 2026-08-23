@@ -155,6 +155,7 @@ function RootComponent() {
   className="absolute inset-0 h-full w-full opacity-[0.08]"
   viewBox="0 0 1600 900"
   preserveAspectRatio="none"
+  aria-hidden="true"
 >
   <g
     fill="none"
