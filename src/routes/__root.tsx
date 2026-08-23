@@ -153,7 +153,7 @@ function RootComponent() {
         {/* Ambient system glow */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute -left-[18%] top-[8%] h-[520px] w-[520px] rounded-full bg-primary/[0.045] blur-3xl"
+  className="pointer-events-none absolute -left-[24%] top-[2%] h-[680px] w-[680px] rounded-full bg-primary/[0.035] blur-3xl"
   style={{
     maskImage:
       "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
@@ -164,7 +164,7 @@ function RootComponent() {
         {/* Secondary ambient system glow */}
 <div
   aria-hidden="true"
-  className="pointer-events-none absolute -right-[12%] bottom-[10%] h-[360px] w-[360px] rounded-full bg-primary/[0.025] blur-3xl"
+  className="pointer-events-none absolute -right-[18%] bottom-[4%] h-[500px] w-[500px] rounded-full bg-primary/[0.018] blur-3xl"
   style={{
     maskImage:
       "radial-gradient(circle, black 0%, black 40%, transparent 72%)",
