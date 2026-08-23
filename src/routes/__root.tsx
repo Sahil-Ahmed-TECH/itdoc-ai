@@ -150,6 +150,17 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+        {/* Ambient system glow */}
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute -left-[18%] top-[8%] h-[520px] w-[520px] rounded-full bg-primary/[0.045] blur-3xl"
+  style={{
+    maskImage:
+      "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
+    WebkitMaskImage:
+      "radial-gradient(circle, black 0%, black 45%, transparent 72%)",
+  }}
+/>
         {/* Global technical background layer */}
         <div
           aria-hidden="true"
