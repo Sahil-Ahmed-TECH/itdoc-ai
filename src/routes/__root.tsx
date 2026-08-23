@@ -134,10 +134,10 @@ function RootComponent() {
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <div
   aria-hidden="true"
-  className="pointer-events-none absolute inset-0 text-foreground opacity-[0.10]"
+  className="pointer-events-none absolute inset-0 text-foreground opacity-[0.05]"
   style={{
     backgroundImage:
-      "linear-gradient(to right, currentColor 0.5px, transparent 0.5px), linear-gradient(to bottom, currentColor 0.5px, transparent 0.5px)",
+      "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
     backgroundSize: "32px 32px",
     maskImage:
       "radial-gradient(ellipse at center, black 0%, black 45%, transparent 85%)",
