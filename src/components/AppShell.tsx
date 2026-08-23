@@ -114,18 +114,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="w-9" />
         </header>
 
-        <main className="relative flex-1 overflow-y-auto">
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute inset-0 opacity-[0.08] text-foreground"
-    style={{
-      backgroundImage:
-        "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-      backgroundSize: "32px 32px",
-    }}
-  />
-  <div className="relative">{children}</div>
-</main>
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
