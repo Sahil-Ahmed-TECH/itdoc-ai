@@ -383,8 +383,30 @@ function Index() {
     setSections((prev) => prev?.map((s) => (s.id === id ? { ...s, content } : s)) ?? prev);
 
   return (
-    <div id="top" className="min-h-full text-foreground">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+  <div
+    id="top"
+    className="relative min-h-full overflow-hidden bg-background text-foreground"
+  >
+    {/* Technical grid / ambient layer */}
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 opacity-[0.035]"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, oklch(1 0 0 / 0.12) 1px, transparent 1px),
+          linear-gradient(to bottom, oklch(1 0 0 / 0.12) 1px, transparent 1px)
+        `,
+        backgroundSize: "32px 32px",
+      }}
+    />
+
+    {/* Ambient green system glow */}
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
+    />
+
+    <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         {/* Page header */}
         <div className="mb-7 flex flex-col gap-1.5">
           <div className="flex items-center gap-2.5">
