@@ -147,3 +147,32 @@
     color: var(--color-popover-foreground);
   }
 }
+
+@layer components {
+  .panel {
+    position: relative;
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        to bottom,
+        oklch(1 0 0 / 0.025),
+        transparent 22%
+      );
+  }
+
+  .panel > * {
+    position: relative;
+  }
+}
