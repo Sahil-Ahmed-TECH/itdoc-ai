@@ -388,8 +388,8 @@ function Index() {
         {/* Page header */}
         <div className="mb-6 flex flex-col gap-1">
           <div className="flex items-center gap-2.5">
-  <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
-  ITDoc AI Dashboard
+ <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+  Dashboard
 </h1>
 
   <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
