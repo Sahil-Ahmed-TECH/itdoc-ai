@@ -156,7 +156,8 @@ function RootComponent() {
   className="pointer-events-none absolute inset-0"
   style={{
     backgroundImage:
-      "radial-gradient(ellipse at 15% 18%, oklch(0.45 0.15 150 / 0.035), transparent 42%), radial-gradient(ellipse at 85% 82%, oklch(0.45 0.15 150 / 0.025), transparent 38%), radial-gradient(ellipse at 50% 50%, oklch(0.45 0.15 150 / 0.018), transparent 58%)",
+      backgroundImage:
+  "radial-gradient(ellipse at 15% 18%, oklch(0.45 0.15 150 / 0.05), transparent 42%), radial-gradient(ellipse at 85% 82%, oklch(0.45 0.15 150 / 0.035), transparent 38%), radial-gradient(ellipse at 50% 50%, oklch(0.45 0.15 150 / 0.025), transparent 58%)",
   }}
 />
         {/* Global technical background layer */}
