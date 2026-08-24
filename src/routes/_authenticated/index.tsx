@@ -143,7 +143,7 @@ function SectionCard({
   return (
     <section
       id={id}
-      className="h-fit rounded-xl border border-border/80 bg-card p-5 shadow-[var(--shadow-panel)] sm:p-6"
+      className="panel h-fit p-5 sm:p-6"
     >
       <div className="mb-5 flex items-center gap-2.5">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
@@ -417,7 +417,7 @@ function Index() {
           {/* Left: Ticket details form */}
           <div id="ticket-details" className="flex flex-col gap-6">
             {/* Template selector */}
-            <div className="rounded-xl border border-border/80 bg-card p-6 shadow-[var(--shadow-panel)]">
+            <div className="panel p-6">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                   <Settings className="h-4 w-4" />
@@ -603,7 +603,7 @@ function Index() {
                   return (
                     <article
                       key={section.id}
-                      className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
+                      className="panel p-5"
                     >
                       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                         <h3 className="text-sm font-semibold tracking-tight">{section.title}</h3>
@@ -656,7 +656,7 @@ function Index() {
             {kb && (
               <article
                 id="knowledge-base"
-                className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-panel)]"
+                className="panel p-5"
               >
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
