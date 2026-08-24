@@ -386,7 +386,7 @@ function Index() {
     <div id="top" className="min-h-full text-foreground">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         {/* Page header */}
-        <div className="mb-6 flex flex-col gap-1">
+        <div className="mb-7 flex flex-col gap-1.5">
           <div className="flex items-center gap-2.5">
  <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
   Dashboard
