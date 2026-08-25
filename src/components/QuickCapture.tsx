@@ -70,11 +70,11 @@ export function QuickCapture({
   </div>
 
   <span className="hidden rounded-md border border-border/80 bg-surface-elevated px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:inline-flex">
-    Raw Notes
+    Raw/Rough Notes
   </span>
 </div>
       <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-        Paste your raw troubleshooting notes and let ITDoc AI organize them into
+        Paste your raw/rough troubleshooting notes and let ITDoc AI organize them into
         professional documentation.
       </p>
 
