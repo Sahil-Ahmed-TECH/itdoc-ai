@@ -156,12 +156,11 @@ function RootComponent() {
   className="pointer-events-none absolute inset-0"
   style={{
     backgroundImage:
-      backgroundImage:
-  "radial-gradient(ellipse at 15% 18%, oklch(0.45 0.15 150 / 0.05), transparent 42%), radial-gradient(ellipse at 85% 82%, oklch(0.45 0.15 150 / 0.035), transparent 38%), radial-gradient(ellipse at 50% 50%, oklch(0.45 0.15 150 / 0.025), transparent 58%)",
+  "radial-gradient(ellipse at 15% 18%, oklch(0.45 0.15 150 / 0.05), transparent 42%), radial-gradient(ellipse at 85% 82%, oklch(0.45 0.15 150 / 0.035), transparent 38%), radial-gradient(ellipse a[...]"
   }}
 />
         {/* Global technical background layer */}
-        <div
+         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 text-foreground opacity-[0.05]"
           style={{
