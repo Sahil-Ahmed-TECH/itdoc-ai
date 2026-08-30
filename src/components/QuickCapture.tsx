@@ -53,10 +53,6 @@ export function QuickCapture({
   <div className="flex items-center gap-2.5">
     <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
       <Sparkles className="h-4 w-4" />
-      <span
-        aria-hidden="true"
-        className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_oklch(0.72_0.18_150_/_0.8)]"
-      />
     </div>
 
     <div>
