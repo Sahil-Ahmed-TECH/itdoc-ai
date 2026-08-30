@@ -51,7 +51,7 @@ export function QuickCapture({
 >
       <div className="flex items-start justify-between gap-4">
   <div className="flex items-center gap-2.5">
-    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground>
+    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-foreground">
       <Sparkles className="h-4 w-4" />
     </div>
 
