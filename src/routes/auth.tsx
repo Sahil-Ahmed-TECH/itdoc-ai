@@ -168,7 +168,7 @@ function AuthPage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Joel Miller"
+                  placeholder="User Name"
                   autoComplete="name"
                   className="rounded-lg border border-input bg-surface-elevated px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
                 />
@@ -182,7 +182,7 @@ function AuthPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="joel.miller@company.com"
+                placeholder="User@company.com"
                 autoComplete="email"
                 className="rounded-lg border border-input bg-surface-elevated px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
               />
