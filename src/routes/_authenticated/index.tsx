@@ -48,7 +48,7 @@ const issueFields: FieldDef[] = [
   {
     key: "issueSummary",
     label: "Issue Summary",
-    placeholder: "Outlook fails to sync mailbox after password reset",
+    placeholder: "Summarize the reported issue, affected service, or user impact",
     multiline: true,
     full: true,
     required: true,
@@ -56,7 +56,7 @@ const issueFields: FieldDef[] = [
   {
     key: "symptoms",
     label: "Symptoms",
-    placeholder: "One per line\nRepeated credential prompts\nSend/receive error 0x8004010F",
+    placeholder: "Document observed symptoms, error messages, codes, or abnormal behavior",
     multiline: true,
     full: true,
   },
@@ -71,14 +71,14 @@ const troubleshootFields: FieldDef[] = [
   {
     key: "steps",
     label: "Troubleshooting Steps Performed",
-    placeholder: "One per line\nVerified account status in AD\nCleared cached credentials",
+    placeholder: "Document diagnostic checks, corrective actions, and verification steps performed",
     multiline: true,
     full: true,
   },
   {
     key: "commands",
     label: "Commands Used",
-    placeholder: "ipconfig /flushdns\nklist purge",
+    placeholder: "Enter CLI / PowerShell commands or diagnostic utilities used during investigation",
     multiline: true,
     mono: true,
     full: true,
@@ -89,7 +89,7 @@ const resolutionFields: FieldDef[] = [
   {
     key: "resolution",
     label: "Resolution",
-    placeholder: "Removed stale credential entry and recreated the Outlook profile.",
+    placeholder: "Summarize the corrective action applied and the resulting outcome.",
     multiline: true,
     full: true,
     required: true,
@@ -97,7 +97,7 @@ const resolutionFields: FieldDef[] = [
   {
     key: "notes",
     label: "Additional Notes",
-    placeholder: "Anything worth flagging for the next technician.",
+    placeholder: "Record relevant findings, configuration details, or follow-up information - Anything worth flagging for the next technician.",
     multiline: true,
     full: true,
   },
