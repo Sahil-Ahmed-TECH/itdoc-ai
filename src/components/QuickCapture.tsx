@@ -70,7 +70,7 @@ export function QuickCapture({
   </span>
 </div>
       <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-        Paste your raw/rough troubleshooting notes and let ITDoc AI organize them into
+        Paste your Raw/Rough troubleshooting notes and let ITDoc AI organize them into
         professional documentation.
       </p>
 
