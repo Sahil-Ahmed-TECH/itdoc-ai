@@ -132,10 +132,10 @@ function AuthPage() {
         </div>
         <div>
           <h2 className="text-2xl font-semibold tracking-tight text-sidebar-foreground">
-            IT documentation, faster.
+            IT Support documentation.
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-sidebar-foreground/60">
-            Turn raw troubleshooting notes into professional ticket documentation,
+            Turn Raw/Rough troubleshooting notes into professional ticket documentation,
             end-user updates and knowledge base articles in under a minute.
           </p>
         </div>
