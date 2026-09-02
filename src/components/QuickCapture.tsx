@@ -3,12 +3,13 @@ import { AutoTextarea } from "@/components/AutoTextarea";
 import { Sparkles } from "lucide-react";
 
 const PLACEHOLDER = `Example:
-• User unable to sign in to Outlook
-• Error: Cannot expand the folder
-• Recreated Outlook profile
-• Cleared OST cache
-• Performed Office Quick Repair
-• Outlook opened successfully`;
+• User reports service or system issue
+• Observed error, behavior, or failure condition
+• Performed initial diagnostic checks
+• Verified system state and configuration
+• Executed diagnostic commands / utilities
+• Applied corrective changes
+• Retested service and confirmed resolution`;
 
 const ANALYZING_MESSAGES = [
   "Analyzing technician notes…",
