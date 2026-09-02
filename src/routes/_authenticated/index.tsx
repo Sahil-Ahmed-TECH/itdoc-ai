@@ -63,8 +63,8 @@ const issueFields: FieldDef[] = [
 ];
 
 const envFields: FieldDef[] = [
-  { key: "userName", label: "User Name", placeholder: "Joel Miller", required: true },
-  { key: "deviceName", label: "Device Name", placeholder: "LT-FIN-0421 (Dell Latitude 5540)" },
+  { key: "userName", label: "User Name", placeholder: "User Name", required: true },
+  { key: "deviceName", label: "Device Name", placeholder: "Device" },
 ];
 
 const troubleshootFields: FieldDef[] = [
