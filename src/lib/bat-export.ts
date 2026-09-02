@@ -293,47 +293,45 @@ function extractInlineCode(content: string): string[] {
 function extractCommandLines(content: string): string[] {
   const commands: string[] = [];
 
-  // First, extract code blocks
-  const codeBlocks = extractCodeBlocks(content);
-  for (const block of codeBlocks) {
-    for (const line of block.split("\n")) {
+  const collect = (raw: string) => {
+    for (const line of raw.split("\n")) {
       const normalized = normalizeLine(line);
-      if (normalized && !isProseExplanation(normalized) && isExecutableCommand(normalized)) {
-        commands.push(normalized);
-      }
-    }
-  }
-
-  // Then extract inline code snippets
-  const inlineSnippets = extractInlineCode(content);
-  for (const snippet of inlineSnippets) {
-    const normalized = normalizeLine(snippet);
-    if (normalized && !isProseExplanation(normalized) && isExecutableCommand(normalized)) {
+      if (!normalized) continue;
+      if (isProseExplanation(normalized)) continue;
+      if (!isExecutableCommand(normalized)) continue;
       commands.push(normalized);
     }
-  }
+  };
 
-  // Finally scan remaining text line by line for standalone commands
-  const remainingText = content.replace(/```[\s\S]*?```/g, "").replace(/`[^`]+`/g, "");
-  for (const line of remainingText.split("\n")) {
-    const normalized = normalizeLine(line);
-    if (!normalized) continue;
-    if (isProseExplanation(normalized)) continue;
-    if (!isExecutableCommand(normalized)) continue;
-    commands.push(normalized);
-  }
+  // 1. Fenced code blocks
+  for (const block of extractCodeBlocks(content)) collect(block);
+
+  // 2. Inline code, from text with fenced blocks removed (fence markers would
+  //    otherwise pair up and swallow whole blocks as a single inline snippet).
+  const withoutFences = content.replace(/```[\s\S]*?```/g, "");
+  for (const snippet of extractInlineCode(withoutFences)) collect(snippet);
+
+  // 3. Remaining plain text
+  collect(withoutFences.replace(/`[^`]+`/g, ""));
 
   return commands;
 }
 
 export function extractBatCommands(sections: GeneratedSection[]): string[] {
   const commands: string[] = [];
+  const seen = new Set<string>();
   for (const section of sections) {
     if (!RELEVANT_SECTION_IDS.includes(section.id)) continue;
-    commands.push(...extractCommandLines(section.content));
+    for (const command of extractCommandLines(section.content)) {
+      const key = command.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      commands.push(command);
+    }
   }
   return commands;
 }
+
 
 export function buildBatFile(sections: GeneratedSection[]): string {
   const commands = extractBatCommands(sections);
