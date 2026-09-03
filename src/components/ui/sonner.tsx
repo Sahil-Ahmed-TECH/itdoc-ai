@@ -9,9 +9,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:!bg-card group-[.toaster]:!text-card-foreground group-[.toaster]:!border-border group-[.toaster]:shadow-lg",
+            "group toast font-mono group-[.toaster]:!bg-card group-[.toaster]:!text-card-foreground group-[.toaster]:!border-border group-[.toaster]:shadow-lg",
           title: "group-[.toast]:!text-card-foreground",
-          description: "group-[.toast]:!text-muted-foreground",
+          description: "group-[.toast]:!text-muted-foreground font-mono",
           success:
             "group-[.toast]:!bg-card group-[.toast]:!text-card-foreground group-[.toast]:!border-success/30",
           error:
