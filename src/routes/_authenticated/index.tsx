@@ -563,13 +563,17 @@ function Index() {
 
             {/* Action buttons */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
-              <button onClick={handleGenerate} disabled={!isValid} className={`${btnPrimary} flex-1`}>
+              <button
+                onClick={handleGenerate}
+                disabled={!isValid}
+                className={`${btnPrimary} flex-1 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50`}
+              >
                 Generate Documentation
               </button>
               <button
                 onClick={handleGenerateKb}
                 disabled={!isValid}
-                className={`${btnPrimary} flex-1`}
+                className={`${btnPrimary} flex-1 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 Generate Knowledge Base
               </button>
