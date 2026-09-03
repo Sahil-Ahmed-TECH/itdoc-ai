@@ -121,11 +121,11 @@ const analysedKeys: (keyof TicketInput)[] = [
 ];
 
 const btnPrimary =
-  "inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 const btnSecondary =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 const btnGhost =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50";
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
 function SectionCard({
   id,
@@ -410,17 +410,17 @@ function Index() {
         {/* Page header */}
         <div className="mb-7 flex flex-col gap-1.5">
           <div className="flex items-center gap-2.5">
- <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-  Dashboard
-</h1>
+  <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+   Dashboard
+  </h1>
 
-  <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
-    IT Service Desk
-  </span>
-</div>
+   <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
+     IT Service Desk
+   </span>
+  </div>
           <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground/80">
-  Capture raw notes, generate professional documentation, and build your knowledge base.
-</p>
+   Capture raw notes, generate professional documentation, and build your knowledge base.
+  </p>
         </div>
 
         {/* Quick Capture */}
@@ -452,23 +452,23 @@ function Index() {
                 </div>
               </div>
               <div className="relative">
-  <select
-    id="issue-template"
-    value={templateId}
-    onChange={(e) => applyTemplate(e.target.value)}
-    className="w-full appearance-none rounded-lg border border-input/80 bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
-  >
-    {issueTemplates.map((t) => (
-      <option key={t.id} value={t.id}>
-        {t.label}
-      </option>
-    ))}
-  </select>
+   <select
+     id="issue-template"
+     value={templateId}
+     onChange={(e) => applyTemplate(e.target.value)}
+     className="w-full appearance-none rounded-lg border border-input/80 bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
+   >
+     {issueTemplates.map((t) => (
+       <option key={t.id} value={t.id}>
+         {t.label}
+       </option>
+     ))}
+   </select>
 
-  <ChevronDown
-  className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 opacity-70 -translate-y-1/2 text-muted-foreground"
-  aria-hidden="true"
-/>
+   <ChevronDown
+   className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 opacity-70 -translate-y-1/2 text-muted-foreground"
+   aria-hidden="true"
+  />
 </div>
             </div>
 
@@ -600,13 +600,13 @@ function Index() {
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <button
                       onClick={handleCreateBat}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       <FileDown className="h-3.5 w-3.5" /> Create .BAT File
                     </button>
                     <button
                       onClick={copyAll}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       {copied === "__all__" ? (
                         <>
@@ -634,14 +634,14 @@ function Index() {
                             onClick={() =>
                               setEditing((prev) => ({ ...prev, [section.id]: !isEditing }))
                             }
-                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           >
                             <Pencil className="h-3 w-3" />
                             {isEditing ? "Done" : "Edit"}
                           </button>
                           <button
                             onClick={() => copyText(section.id, section.content, section.title)}
-                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           >
                             {copied === section.id ? (
                               <>
@@ -690,14 +690,14 @@ function Index() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => setKbEditing((v) => !v)}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       <Pencil className="h-3 w-3" />
                       {kbEditing ? "Done" : "Edit"}
                     </button>
                     <button
                       onClick={() => copyText("__kb__", kb.content, "Knowledge base article")}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground transition hover:bg-muted"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       {copied === "__kb__" ? (
                         <>
