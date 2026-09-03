@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <aside className="hidden w-[365px] shrink-0 border-r border-sidebar-border lg:block">
+      <aside className="hidden w-[350px] shrink-0 border-r border-sidebar-border lg:block">
   <SidebarContent
     activeSection={activeSection}
     setActiveSection={setActiveSection}
@@ -118,7 +118,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="w-[380px] p-0">
+        <SheetContent side="left" className="w-[375px] p-0">
   <SidebarContent
     onNavigate={() => setMobileOpen(false)}
     activeSection={activeSection}
