@@ -411,7 +411,7 @@ function Index() {
         <div className="mb-7 flex flex-col gap-1.5">
           <div className="flex items-center gap-2.5">
   <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-   Dashboard
+   IT Ticket Documentation Generator
   </h1>
 
    <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
@@ -454,6 +454,7 @@ function Index() {
               <div className="relative">
    <select
      id="issue-template"
+     aria-label="Issue Template"
      value={templateId}
      onChange={(e) => applyTemplate(e.target.value)}
      className="w-full appearance-none rounded-lg border border-input/80 bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
