@@ -454,6 +454,7 @@ function Index() {
               <div className="relative">
    <select
      id="issue-template"
+     aria-label="Issue Template"
      value={templateId}
      onChange={(e) => applyTemplate(e.target.value)}
      className="w-full appearance-none rounded-lg border border-input/80 bg-surface-elevated px-3 py-2 pr-10 text-sm text-foreground outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/20"
