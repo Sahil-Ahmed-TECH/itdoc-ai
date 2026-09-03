@@ -132,11 +132,11 @@ function AuthPage() {
         </div>
         <div>
           <h2 className="text-2xl font-semibold tracking-tight text-sidebar-foreground">
-            IT Support documentation.
+            Technical Intelligence for IT Operations.
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-sidebar-foreground/60">
-            Turn Raw/Rough troubleshooting notes into professional ticket documentation,
-            end-user updates and knowledge base articles in under a minute.
+            Convert unstructured troubleshooting notes into standardized incident records, 
+            diagnostic documentation, resolution summaries, and reusable knowledge — with AI-assisted analysis.
           </p>
         </div>
         <p className="text-xs text-sidebar-foreground/40">IT Service Desk Toolkit</p>
