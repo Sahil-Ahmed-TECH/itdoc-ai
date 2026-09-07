@@ -118,7 +118,7 @@ export function QuickCapture({
         </button>
         <button
           onClick={onClear}
-          className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 sm:w-40"
+          className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 sm:w-40"
         >
           Clear Notes
         </button>
