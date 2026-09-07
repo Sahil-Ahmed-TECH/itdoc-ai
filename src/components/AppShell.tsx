@@ -98,7 +98,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted"
             aria-label="Open navigation"
           >
             <Menu className="h-5 w-5" />

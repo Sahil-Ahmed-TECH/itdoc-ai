@@ -112,7 +112,7 @@ export function QuickCapture({
         <button
           onClick={onAnalyze}
           disabled={isAnalyzing}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-48"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-48"
         >
           {isAnalyzing ? "Analyzing…" : "Analyze Notes"}
         </button>

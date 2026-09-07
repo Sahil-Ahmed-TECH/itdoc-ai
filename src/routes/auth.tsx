@@ -216,7 +216,7 @@ function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-1 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-60"
+              className="mt-1 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading
                 ? mode === "signin"
@@ -235,7 +235,7 @@ function AuthPage() {
               setError(null);
               setNotice(null);
             }}
-            className="mt-5 w-full text-center text-xs text-muted-foreground underline-offset-4 hover:underline"
+            className="mt-5 w-full text-center text-xs text-muted-foreground underline-offset-4 transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:underline"
           >
             {mode === "signin"
               ? "No account yet? Create one"
