@@ -112,13 +112,13 @@ export function QuickCapture({
         <button
           onClick={onAnalyze}
           disabled={isAnalyzing}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-48"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-48"
         >
           {isAnalyzing ? "Analyzing…" : "Analyze Notes"}
         </button>
         <button
           onClick={onClear}
-          className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 sm:w-40"
+          className="inline-flex items-center justify-center rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 sm:w-40"
         >
           Clear Notes
         </button>

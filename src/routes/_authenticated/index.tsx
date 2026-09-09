@@ -121,11 +121,11 @@ const analysedKeys: (keyof TicketInput)[] = [
 ];
 
 const btnPrimary =
-  "inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 const btnSecondary =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 const btnGhost =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2.5 text-sm font-medium text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
 function SectionCard({
   id,
@@ -605,13 +605,13 @@ function Index() {
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <button
                       onClick={handleCreateBat}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       <FileDown className="h-3.5 w-3.5" /> Create .BAT File
                     </button>
                     <button
                       onClick={copyAll}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-xs font-semibold text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       {copied === "__all__" ? (
                         <>
@@ -639,14 +639,14 @@ function Index() {
                             onClick={() =>
                               setEditing((prev) => ({ ...prev, [section.id]: !isEditing }))
                             }
-                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           >
                             <Pencil className="h-3 w-3" />
                             {isEditing ? "Done" : "Edit"}
                           </button>
                           <button
                             onClick={() => copyText(section.id, section.content, section.title)}
-                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           >
                             {copied === section.id ? (
                               <>
@@ -695,14 +695,14 @@ function Index() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => setKbEditing((v) => !v)}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       <Pencil className="h-3 w-3" />
                       {kbEditing ? "Done" : "Edit"}
                     </button>
                     <button
                       onClick={() => copyText("__kb__", kb.content, "Knowledge base article")}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground transition-all duration-150 ease-out hover:scale-[1.01] active:scale-[1] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground transition-all duration-150 ease-out active:scale-[0.95] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
                       {copied === "__kb__" ? (
                         <>
