@@ -500,7 +500,7 @@ function Index() {
               id="environment-section"
               icon={TicketIcon}
               title="Environment"
-              description="Who and what is affected."
+              description="Affected user and endpoint context."
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 {envFields.map((field) => (
